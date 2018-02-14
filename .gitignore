@@ -51,6 +51,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-# others
-*~
-*.bak
+# CUSTOM
+.DS_Store
+RTv1
+
