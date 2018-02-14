@@ -31,8 +31,6 @@ t_v		draw_pixelvp(t_b *b, t_px px)
 	// 	b->vp.xi), x), vect_multnb(&vect_multnb(&b->cam.dirup, b->vp.yi), y))));
 
 	// On calcule l'emplacement du pixel dans le viewplane
-	b->vp.xi = b->vp.w / (double)b->winx;
-	b->vp.yi = b->vp.h / (double)b->winy;
 	tmp = vect_multnb(&b->cam.dirright, b->vp.xi * (double)px.x);
 		// ft_putendl("tmp = ");
 		// vect_print(tmp);

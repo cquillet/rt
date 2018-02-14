@@ -24,6 +24,7 @@ void	init_b(t_b *b)
 	b->winy = 480;
 	init_cam(&b->cam);
 	init_vp(b);
+	b->cam.pos.z = -b->vp.dist;
 	b->sph = NULL;
 	b->lux = NULL;
 	b->plane = NULL;
@@ -89,8 +90,8 @@ void	init_vp(t_b *b)
 	b->vp.h = 0.35;
 	b->vp.xi = b->vp.w / (double)b->winx;
 	b->vp.yi = b->vp.h / (double)b->winy;
-	b->vp.dist = 0;
-	b->vp.upleft = vect_sub(vect_add(b->cam.dir, vect_add(vect_multnb(&b->cam.dir, b->vp.dist),
+	b->vp.dist = 5;
+	b->vp.upleft = vect_sub(vect_add(b->cam.pos, vect_add(vect_multnb(&b->cam.dir, b->vp.dist),
 	vect_multnb(&b->cam.dirup, b->vp.h / 2))), vect_multnb(&b->cam.dirright, b->vp.w / 2));
 }
 
@@ -104,8 +105,8 @@ void	init_cam(t_cam *cam)
 	cam->angle = 60 * M_PI / 180;
 	cam->pos = init_vect(0, 0, -1);
 	cam->dir = init_vect(0, 0, 1);
-	cam->dirup = init_vect(0, 1, 0);
-	cam->dirright = init_vect(1, 0, 0);
+	cam->dirup = init_vect(1, 0, 0);
+//	cam->dirright = init_vect(1, 0, 0);
 	cam->dirright = vect_prod(cam->dir, cam->dirup);
 }
 
