@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 13:17:12 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/01/27 17:42:26 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/02/26 21:16:33 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,29 @@ int		event(t_b *b)
 		ev = event.key.keysym.sym;
 		ft_putstr("k = ");
 			ft_putnbrendl(ev);
-		ft_putstr("r = ");
-			ft_putnbrendl(SDLK_r);
 		if (event.type == SDL_QUIT || ev == SDLK_ESCAPE)
 			return (0);
 		else if (ev == SDLK_DOWN | ev == SDLK_UP | ev == SDLK_LEFT | ev == SDLK_RIGHT)
 			ev_rotate_xy(b, ev);
-		else if (ev == SDLK_w || ev == SDLK_a || ev == SDLK_s || ev == SDLK_d || ev == SDLK_KP_MINUS || ev == SDLK_KP_PLUS)
-			b->cam.pos = ev_move(b , ev);
+		else if (ev == SDLK_w || ev == SDLK_a || ev == SDLK_s || ev == SDLK_d ||
+				ev == SDLK_KP_MINUS || ev == SDLK_KP_PLUS)
+			ev_move_cam(b, ev);
+		else if (ev == SDLK_i || ev == SDLK_j || ev == SDLK_k || ev == SDLK_l
+			|| ev == SDLK_u || ev == SDLK_o || ev == SDLK_DELETE || ev == SDLK_KP_0
+			|| ev == SDLK_KP_1 || ev == SDLK_KP_2 || ev == SDLK_KP_3 || ev == SDLK_KP_4 || ev == SDLK_KP_5)
+			event_obj(b, ev);
 		else if (ev == SDLK_3 || ev == SDLK_4)
 			ev_qualitat(b, ev);
+		else if (ev == SDLK_COMMA || ev == SDLK_PERIOD)
+			ev_gamma(b, ev);
 		else if (ev == SDLK_r)
 			ev_reset(b);
+		else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
+			ev_mouse(b);
+		else if (ev == SDLK_SPACE)
+			b->act->action *= -1;
+		else if (ev == SDLK_f)
+			to_fdf(b, "map.fdf");
 	}
 	return (1);
 }
@@ -49,7 +60,8 @@ int		event(t_b *b)
 void	ev_reset(t_b *b)
 {
 			ft_putendlcolor("ev_reset();", MAGENTA);
-	init_cam(&b->cam);
+	init_cam(b);
+	b->lux->ori = init_vect(0.0, 0.0, 25.0);
 	b->aliasing = 4;
 }
 
@@ -61,8 +73,20 @@ void	ev_qualitat(t_b *b, int ev)
 {
 	if (ev == SDLK_3 && b->aliasing > 1)
 		b->aliasing -= 1;
-	else if (ev == SDLK_4 && b->aliasing < 100)
+	else if (ev == SDLK_4 && b->aliasing <= b->winy / 4 && b->aliasing <= b->winx / 4)
 		b->aliasing += 1;
+}
+
+/*
+** Event to change the gamma
+*/
+
+void	ev_gamma(t_b *b, int ev)
+{
+	if (ev == SDLK_COMMA && b->gamma > 0.1)
+		b->gamma -= 0.1;
+	else if (ev == SDLK_PERIOD && b->gamma < 2.0)
+		b->gamma += 0.1;
 }
 
 /*
@@ -112,27 +136,49 @@ void	ev_rotate_xy(t_b *b, int ev)
 	// b->cam.dir = vect_prod(b->cam.dirup, b->cam.dirright);
 }
 
+
 /*
 ** Moving keys : up | down | right | left
 */
 
-t_v		ev_move(t_b *b, int ev)
+void		ev_move_cam(t_b *b, int ev)
 {
-			ft_putendlcolor("ev_move();", MAGENTA);
-	t_v tmp;
-
-	tmp = b->cam.pos;
+			ft_putendlcolor("ev_move_cam();", MAGENTA);
 	if (ev == SDLK_w)
-		tmp.y = b->cam.pos.y + 0.06;
+		b->cam.pos = vect_add(b->cam.pos, vect_multnb(&b->cam.dirup, 0.5));
 	else if (ev == SDLK_s)
-		tmp.y = b->cam.pos.y - 0.06;
+		b->cam.pos = vect_sub(b->cam.pos, vect_multnb(&b->cam.dirup, 0.5));
 	else if (ev == SDLK_a)
-		tmp.x = b->cam.pos.x - 0.06;
+		b->cam.pos = vect_sub(b->cam.pos, vect_multnb(&b->cam.dirright, 0.5));
 	else if (ev == SDLK_d)
-		tmp.x = b->cam.pos.x + 0.06;
+		b->cam.pos = vect_add(b->cam.pos, vect_multnb(&b->cam.dirright, 0.5));
 	else if (ev == SDLK_KP_PLUS)
-		tmp = vect_add(b->cam.pos, vect_multnb(&b->cam.dir, 0.1));
+		b->cam.pos = vect_add(b->cam.pos, vect_multnb(&b->cam.dir, 3));
 	else if (ev == SDLK_KP_MINUS)
-		tmp = vect_sub(b->cam.pos, vect_multnb(&b->cam.dir, 0.1));
-	return (tmp);
+		b->cam.pos = vect_sub(b->cam.pos, vect_multnb(&b->cam.dir, 3));
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

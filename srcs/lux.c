@@ -6,15 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 18:58:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/01/19 18:06:33 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/02/26 19:15:14 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RTv1.h"
-
-/*
-** Fichier our calculer toutes les composantes differentes des lumieres
-*/
 
 /*
 ** Calculate the ambiant lux
@@ -22,7 +18,7 @@
 
 t_col	calc_amb(t_b *b)
 {
-	return (color_mult(b->amb, color_mult(b->inter->tex.ka, b->inter->tex.col)));
+	return (color_mult(b->amb, color_mult(b->inter.tex.ka, b->inter.tex.col)));
 }
 
 /*
@@ -31,21 +27,44 @@ t_col	calc_amb(t_b *b)
 
 void	calc_dif(t_lux *lux, t_inter inter)
 {
-	lux->lum_dif = color_mult(lux->dif, color_multnb(color_mult(inter.tex.kd, inter.tex.col), vect_dot(lux->light, inter.n)));
+	double	dot;
+
+	if ((dot = vect_dot(inter.n, lux->light)) <= 0.0 || lux->atn <= 0.0)
+		lux->lum_dif = init_col(0.0, 0.0, 0.0);
+	else
+		lux->lum_dif = color_mult(lux->dif, color_multnb(color_mult(inter.tex.kd, inter.tex.col), dot * lux->atn));
 }
 
 /*
 ** Calculate the specular lux
 */
 
-void	calc_spe(t_lux *lux, t_inter inter, t_v eye)
+void	calc_spe(t_lux *lux, t_inter inter, t_v to_eye)
 {
 	t_col	plasti;
 	t_v		reflect;
+	double	dot;
 
-	reflect = init_vect(0, 0, 0);
+	if (lux->atn <= 0.0)
+	{
+		lux->lum_spe = init_col(0.0, 0.0, 0.0);
+		return ;
+	}
+	reflect = vect_add(vect_multnb(&lux->light, -1), vect_multnb(&inter.n, 2 * vect_dot(lux->light, inter.n)));
+	if ((dot = vect_dot(reflect, to_eye)) <= 0.0)
+	{
+		lux->lum_spe = init_col(0.0, 0.0, 0.0);
+		return ;
+	}
 	plasti = color_add(color_multnb(inter.tex.col, 1 - inter.tex.plasti), init_col(inter.tex.plasti, inter.tex.plasti, inter.tex.plasti));
-	lux->lum_spe = color_mult(lux->spe, color_multnb(color_mult(inter.tex.ks, plasti), pow(vect_dot(eye, inter.n), inter.tex.rug)));
+	lux->lum_spe = color_mult(lux->spe, color_multnb(color_mult(inter.tex.ks, plasti), pow(dot, inter.tex.rug) * lux->atn));
+}
+
+void	calc_atn(t_lux *lux, double dist)
+{
+	lux->atn = lux->amp_cst / (1.0 + lux->amp_lin * dist + lux->amp_quad * dist * dist);
+	if (lux->atn < 0.)
+		lux->atn = 0.;
 }
 
 /*
@@ -54,6 +73,7 @@ void	calc_spe(t_lux *lux, t_inter inter, t_v eye)
 
 t_lux		*add_lux(t_b *b, t_lux lux)
 {
+            ft_putendlcolor("add_lux();", MAGENTA);
 	t_lux	*l;
 
 	if (!b)
@@ -64,6 +84,10 @@ t_lux		*add_lux(t_b *b, t_lux lux)
 		*(b->lux) = lux;
 		b->lux->id = ++b->maxid;
 		b->lux->next = NULL;
+		// b->lux->sph = add_sphere(b, init_sph(b->lux->ori, b->lux->dif));
+		// b->lux->sph->tex.col = b->lux->dif;
+		// b->lux->sph->islux = 1;
+		// b->lux->sph->r = 0.2;
 		return (b->lux);
 	}
 	while (l->next)
@@ -73,6 +97,10 @@ t_lux		*add_lux(t_b *b, t_lux lux)
 	*l = lux;
 	l->id = ++b->maxid;
 	l->next = NULL;
+	// l->sph = add_sphere(b, init_sph(l->ori, l->dif));
+	// l->sph->tex.col = l->dif;
+	// l->sph->islux = 1;
+	// l->sph->r = 0.2;
 	return (l);
 }
 
