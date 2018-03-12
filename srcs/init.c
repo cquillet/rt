@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:12:09 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 07:49:21 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/12 11:46:00 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ void	init_vp(t_b *b)
 
 t_col	init_col(double r, double g, double b)
 {
-            // ft_putendlcolor("init_col();", MAGENTA);
 	t_col	col;
 
 	col.r = r;
