@@ -6,65 +6,51 @@
 /*   By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 17:49:31 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/02/26 18:16:25 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/12 10:14:26 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RTv1.h"
 
 /*
-** Chekc intersction of all the objects of the world and the universe and clement
+** Chekc intersction of all the objects
 */
 
 double	inter_obj(t_b *b, t_ray *ray)
 {
-			// ft_putendlcolor("inter_obj();", MAGENTA);
 	t_obj	*obj;
-	t_v		dest;
-	int		id;
 	double	m;
 	t_v		h;
 
-	// ray->t = b->max;	
-	if ((id = inter_all(b, ray, 1.0)) > 0)
+	if ((b->inter.id = inter_all(b, ray, 1.0)) > 0)
 	{
-		b->inter.id = id;
 		obj = search_obj(b, b->inter.id);
-		if (obj->form == 1)	//Plan
-		{
+		b->inter.tex = obj->tex;
+		if (obj->form == 1)
 			b->inter.n = init_vect(obj->a, obj->b, obj->c);
-		}
-		else if (obj->form == 2)	//Sphere
-		{
+		else if (obj->form <= 4)
 			b->inter.n = vect_sub(ray2vect(*ray), obj->ori);
-		}
-		else if (obj->form == 3)	//Cylindre
-		{
-		//	dest = vect_multnb(&obj->h, vect_dot(vect_sub(ray2vect(*ray), obj->ori), obj->h) / vect_norme2(obj->h));
-			h = obj->h;
-			vect_normalize(&h);
-			m = vect_dot(ray->dir, h) * ray->t + vect_dot(vect_sub(ray->ori, obj->ori), h);
-			b->inter.n = vect_sub(ray2vect(*ray), vect_add(obj->ori, vect_multnb(&h, m)));
-		}
-		else if (obj->form == 4)	//Cone
-		{
-			dest = vect_multnb(&obj->h, vect_dot(ray2vect(*ray), obj->h) / vect_norme2(obj->h));
-			b->inter.n = vect_sub(vect_sub(ray2vect(*ray), obj->ori), dest);	
-		}
 		if (vect_dot(b->inter.n, ray->dir) > 0.0)
 			b->inter.n = vect_multnb(&b->inter.n, -1);
-		b->inter.tex = obj->tex;
+		if (obj->form == 3 || obj->form == 4)
+		{
+			h = obj->h;
+			vect_normalize(&h);
+			m = vect_dot(b->inter.n, h);
+			if (obj->form == 4)
+				m *= (1.0 + pow(tan(obj->angle), 2.0));
+			b->inter.n = vect_sub(b->inter.n, vect_multnb(&h, m));
+		}
 	}
 	return (ray->t);
 }
 
 /*
-** Check intersction of all the objects of the world and the universe and not clement
+** Check intersection between impact and the lights
 */
 
-int	inter_obj_lux(t_b *b, t_ray *to_light)
+int		inter_obj_lux(t_b *b, t_ray *to_light)
 {
-			// ft_putendlcolor("inter_obj_lux();", MAGENTA);
 	to_light->t = 1.0;
 	return (inter_all(b, to_light, MARGIN_FLOAT));
 }

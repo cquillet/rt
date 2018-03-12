@@ -54,4 +54,5 @@ dkms.conf
 # CUSTOM
 .DS_Store
 RTv1
+*.bak
 

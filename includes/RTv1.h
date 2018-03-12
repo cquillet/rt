@@ -6,7 +6,7 @@
 /*   By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 18:44:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/02/26 21:17:47 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/12 10:04:17 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 # define DEG2RAD(x) (x * M_PI / 180.0)
 					#include <stdio.h>
 
-
-//Specular entre le rayon envoyé et le rayon de la lumiere et on blanchi le pixel
 
 /*
 ** struct for a basic vector
@@ -78,6 +76,7 @@ typedef struct				s_tex
 	t_col					ka;			//coef lum ambiant
 	t_col					kd;			//coef lum diffuse
 	t_col					ks;			//coef lum specular
+	t_col					col_plasti;
 }							t_tex;
 
 /*
@@ -160,18 +159,19 @@ typedef struct				s_cam
 
 typedef struct			s_tri
 {
-	t_v					v[3];
-	t_v					vt[3];
-	t_v					vn[3];
-}						t_tri;
+	t_v						v[3];
+	t_v						vt[3];
+	t_v						vn[3];
+}							t_tri;
 
 /*
 ** Obj struct containing every kind of object
+** form : 1 = plan, 2 = sph, 3 = cyl, 4 = cone, 5 = triangle
 */
 
 typedef	struct				s_obj
 {
-	int						form;	//1 = plan, 2 = sph, 3 = cyl, 4 = cone, 5 = tri
+	int						form;
 	int						id;
 	double					a;
 	double					b;
@@ -262,10 +262,15 @@ typedef struct				s_b
 ** main functions						| maintest2.c
 */
 
-void						rt(t_b *b);
+void						render(t_b *b);
+void						ray_cast(t_b *b, t_px *px, t_ray *ray);
+
+/*
+** drawing functions					| draw.c
+*/
+
 void						draw(t_b *b);
 void						draw_lux(t_b *b);
-
 
 /*
 ** Structs inits						| init.c
@@ -284,7 +289,7 @@ t_obj						init_plane(double a, double b, double c, double d, t_col col);
 t_tex						init_tex();
 void						init_inter(t_inter *inter);
 t_matrice					init_matrice();
-t_obj						init_cone(t_v v, t_col col, t_v h, double r);
+t_obj						init_cone(t_v v, t_col col, t_v h, double angle);
 t_obj						init_cyl(t_v v, t_col col, t_v h, double r);
 t_act						init_act(t_obj *obj1, int action, int axis);
 t_ray						init_ray(t_v ori, t_v dir, double t);
@@ -308,7 +313,8 @@ void						ray(t_b *b);
 **	Utilitaries							| Utils.c
 */
 
-t_v							draw_pixelvp(t_b *b, t_px px);
+t_v							dir_vp_pixel(t_b *b, t_px px);
+t_v							dir_vp_upleft(t_b *b);
 t_v							ray2vect(t_ray ray);
 double						solve_equation(double min, double a, double b, double c);
 t_px						pos2px(t_b *b, t_v v);
@@ -327,7 +333,7 @@ void						ev_gamma(t_b *b, int ev);
 void						ev_reset(t_b *b);
 
 /*
-** Event on objects
+** Event on objects						| event_obj.c
 */
 
 void						event_obj(t_b *b, int ev);
@@ -362,6 +368,7 @@ void						vect_print(t_v v);
 void						vect_normalize(t_v *v);
 t_v							vect_rotate(t_v v, double angle, t_v axe);
 t_v							vect_init(double x, double y, double z);
+t_v							reflect(t_v v, t_v n);
 
 /*
 ** Vector list actions					| vector.c
@@ -385,7 +392,6 @@ void						color_max(t_col *col, double *colmax);
 t_col						gamma_corr(t_col col, double coeff, double gamma);
 unsigned int				col2int(t_col col);
 t_col						int2col(unsigned int color);
-void						print_col(t_col col);
 
 /*
 ** Intercept for objs 					| intersection.c
@@ -417,8 +423,8 @@ void						delete_obj(t_b *b, int id);
 */
 
 t_col						calc_amb(t_b *b);
-void						calc_dif(t_lux *lux, t_inter inter);
-void						calc_spe(t_lux *lux, t_inter inter, t_v to_eye);
+t_col						calc_dif(t_lux *lux, t_inter inter);
+t_col						calc_spe(t_lux *lux, t_inter inter, t_v from_eye);
 void						calc_atn(t_lux *lux, double dist);
 t_lux						*add_lux(t_b *b, t_lux lux);
 t_lux						*search_lux(t_b *b, int id);
@@ -475,7 +481,6 @@ void						to_fdf(t_b *b, char *name);
 ** Parsing							| parsing.c
 */
 
-void						help_parsing();
 void						parse_main(t_b *b, char *av);
 void						parse_zob(t_b *b, char *av);
 t_v							parse_vect(char *s);
@@ -487,24 +492,33 @@ void						parse_err(int e, char *s);
 ** help functions					| help.c
 */
 
-void						man_help();
+//void						man_help();
 void						help_parsing();
-void						help_obj();
-void						usage();
+//void						help_obj();
+//void						usage();
+int							main_help(int ac, char *txt);
 
+/*
+**									| gradent.c
+*/
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+int							barely_zero(double a);
+int							barely_equals(double a, double b);
+int							scale(int value, int min_max[2],
+														int new_min_max[2]);
+double						scalef(double value, double min_max[2],
+														double new_min_max[2]);
+unsigned int				spectrum_color(int value, int min, int max);
+unsigned int				spectrum_gray(int value, int min, int max);
+unsigned int				rgb_between(int value, int start_end[2],
+													unsigned int color_start,
+													unsigned int color_end);
+unsigned int				spectrum_colorf(double value, double min,
+																	double max);
+unsigned int				spectrum_grayf(double value, double min,
+																	double max);
+unsigned int				rgb_betweenf(double value, double start_end[2],
+													unsigned int color_start,
+													unsigned int color_end);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/26 14:22:46 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/02/26 22:34:43 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/02/27 18:52:58 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,13 @@ void	scene2(t_b *b)
 {
 	t_obj	*obj;
 
-	add_lux(b, init_lux(init_vect(0.0, 0.0, 5.0), init_col(0.7, 0.7, 0.7), init_col(0.7, 0.7, 0.7)));
-	add_lux(b, init_lux(init_vect(2.0, 2.0, 5.0), init_col(0.7, 0.7, 0.7), init_col(0.7, 0.7, 0.7)));
+	add_lux(b, init_lux(init_vect(-1.0, -1.0, 4.0), init_col(0.7, 0.7, 0.7), init_col(0.7, 0.7, 0.7)));
+	add_lux(b, init_lux(init_vect(2.0, -2.0, 5.0), init_col(0.7, 0.7, 0.7), init_col(0.7, 0.7, 0.7)));
 	// b->lux->next->dif = init_col(0.0, 0.0, 1.0);
 	add_obj(b, init_sph(init_vect(0, 0, 7), init_col(COL_YELLOWGREEN), 1.0));
 
-	obj = add_obj(b, init_cyl(init_vect(0, 2, 4), init_col(COL_GREY), init_vect(3.0, 1.0, 1.0), 1.3));
+//	obj = add_obj(b, init_cyl(init_vect(0, 2, 4), init_col(COL_GREY), init_vect(3.0, 1.0, 1.0), 1.3));
+	obj = add_obj(b, init_cone(init_vect(0, 2, 4), init_col(COL_GREY), init_vect(3.0, 1.0, 1.0), 20.));
 	obj->tex.kd = init_col(0.5, 0.5, 0.5);
 	obj->tex.ks = init_col(1., 1., 1.);
 //	obj->tex.rug = 3.;

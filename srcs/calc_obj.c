@@ -6,7 +6,7 @@
 /*   By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 20:05:58 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/02/26 18:08:03 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/12 10:12:00 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ double		calc_sphere(t_ray *ray, t_obj sph, double min)
 	t_v		ori;
 
 	ori = vect_sub(ray->ori, sph.ori);
-	ret = solve_equation(min, vect_norme2(ray->dir), 2 * vect_dot(ray->dir, ori), vect_norme2(ori) - sph.r * sph.r);
+	ret = solve_equation(min, vect_norme2(ray->dir),
+				2 * vect_dot(ray->dir, ori), vect_norme2(ori) - sph.r * sph.r);
 	return (ret);
 }
 
@@ -36,15 +37,17 @@ double		calc_plane(t_ray *ray, t_obj plane, double min)
 	double	r;
 	t_v		n;
 
-	//t = - ( (A*X + B*Y + C*Z + D) / (A*DIR.x + B*DIR.y + C*DIR.z) )
 	n = init_vect(plane.a, plane.b, plane.c);
 	prod = vect_dot(n, ray->dir);
-	if (!prod)
+	if (barely_zero(prod))
 		return (-1.);
+	if (prod > 0.)
+	{
+		n = vect_multnb(&n, -1.0);
+		prod = -prod;
+	}
 	r = -(vect_dot(n, ray->ori) + plane.d) / prod;
-	if (r < min)
-		return (-1.);
-	return (r);
+	return (r < min ? -1. : r);
 }
 
 /*
@@ -53,21 +56,20 @@ double		calc_plane(t_ray *ray, t_obj plane, double min)
 
 double		calc_cyl(t_ray *ray, t_obj cyl, double min)
 {
-	double	a;
-	double	b;
-	double	c;
-	double	d;
+	double	coeff[3];
+	double	dot[2];
 	t_v		ori;
 	t_v		h;
 
 	ori = vect_sub(ray->ori, cyl.ori);
 	h = cyl.h;
 	vect_normalize(&h);
-	d = vect_dot(ray->dir, h);
-	a = vect_norme2(ray->dir) - (d * d);// / vect_norme2(cyl.h);
-	b = 2 * (vect_dot(ray->dir, ori) - d * vect_dot(ori, h));
-	c = vect_norme2(ori) - vect_dot(ori, h) * vect_dot(ori, h) - cyl.r * cyl.r;
-	return (solve_equation(min, a, b, c));
+	dot[0] = vect_dot(ray->dir, h);
+	dot[1] = vect_dot(ori, h);
+	coeff[0] = vect_norme2(ray->dir) - dot[0] * dot[0];
+	coeff[1] = 2 * (vect_dot(ray->dir, ori) - dot[0] * dot[1]);
+	coeff[2] = vect_norme2(ori) - dot[1] * dot[1] - cyl.r * cyl.r;
+	return (solve_equation(min, coeff[0], coeff[1], coeff[2]));
 }
 
 /*
@@ -76,16 +78,20 @@ double		calc_cyl(t_ray *ray, t_obj cyl, double min)
 
 double		calc_cone(t_ray *ray, t_obj cone, double min)
 {
-	double	a;
-	double	b;
-	double	c;
-	double	d;
+	double	coeff[3];
+	double	dot[2];
+	double	t;
 	t_v		ori;
+	t_v		h;
 
 	ori = vect_sub(ray->ori, cone.ori);
-	d = vect_dot(ray->dir, cone.h);
-	a = vect_norme2(ray->dir) - (d * d) / vect_norme2(cone.h) * (1 - tan(cone.angle) * tan(cone.angle));
-	b = 2 * (vect_dot(ray->ori, ray->dir) - vect_dot(ray->ori, cone.h) * d / vect_norme2(cone.h) * (1 - tan(cone.angle) * tan(cone.angle)));
-	c = vect_norme2(ray->ori) - d * d / vect_norme2(cone.h) * (1 - tan(cone.angle) * tan(cone.angle));
-	return (solve_equation(min, a, b, c));
+	h = cone.h;
+	vect_normalize(&h);
+	dot[0] = vect_dot(ray->dir, h);
+	dot[1] = vect_dot(ori, h);
+	t = 1.0 + pow(tan(cone.angle), 2.0);
+	coeff[0] = vect_norme2(ray->dir) - t * dot[0] * dot[0];
+	coeff[1] = 2.0 * (vect_dot(ray->dir, ori) - t * dot[0] * dot[1]);
+	coeff[2] = vect_norme2(ori) - t * dot[1] * dot[1];
+	return (solve_equation(min, coeff[0], coeff[1], coeff[2]));
 }

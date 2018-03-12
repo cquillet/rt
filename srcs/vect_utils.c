@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 19:00:15 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/01/30 19:45:30 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/12 07:51:09 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ void		vect_normalize(t_v *v)
 	v->x /= n;
 	v->y /= n;
 	v->z /= n;
+}
+
+t_v			reflect(t_v v, t_v n)
+{
+	return (vect_add(vect_multnb(&v, -1), vect_multnb(&n, 2 * vect_dot(v, n))));
 }
 
 /*

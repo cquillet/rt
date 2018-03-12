@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 13:16:46 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/02/16 19:43:51 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/12 05:20:32 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,23 +108,3 @@ void		act_color(t_obj *obj)
 	obj->tex.col.g = (double)rand() / (double)RAND_MAX;
 	obj->tex.col.b = (double)rand() / (double)RAND_MAX;
 }
-
-/*
-** Make an object turning around an other
-*/
-
-// void	act_ellipse(t_act *act)
-// {
-// 	double	deltaX;
-// 	double	deltaY;
-// 	t_v		point;
-
-// 	point = vect_add(act->ori, init_vect(1.0, 1.0, 1.0));
-// 	deltaX = vect_sub(act->ori.x, (act->ori.x + 2.0));
-// 	deltaY = vect_sub(act->ori.y, (act->ori.y + 2.0));
-// 	act->angle = atan2(deltaX, deltaY);
-//   	act->dist = vect_dist(act->ori.x, act->ori.y, point.x, point.y);
-//   	x = act->ori.x + cos(act->angle) * vect2int();
-//   	y = act->ori.y + sin(act->angle) * vect2int();
-//   	act->angle += M_PI / 120;
-// }

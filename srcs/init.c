@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:12:09 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/02/26 22:30:10 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/12 07:49:21 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	init_b(t_b *b)
 	b->winx = 640 * 1.5;
 	b->winy = 480 * 1.5;
 	init_vp(b);
-	init_cam(b);
 	b->vl = NULL;
 	b->lux = NULL;
 	b->obj = NULL;
@@ -106,8 +105,8 @@ void	init_vp(t_b *b)
 	b->vp.xi = b->vp.w / (double)b->winx;
 	b->vp.yi = b->vp.h / (double)b->winy;
 	b->vp.dist = 1.0;
-	b->vp.upleft = vect_add(b->cam.pos, vect_add(vect_multnb(&b->cam.dir, b->vp.dist),
-		vect_multnb(&b->cam.dirup, b->vp.h / 2))), vect_multnb(&b->cam.dirright, -b->vp.w / 2);
+	init_cam(b);
+	b->vp.upleft = vect_add(b->cam.pos, dir_vp_upleft(b));
 }
 
 /*
@@ -155,7 +154,6 @@ t_tex		init_tex()
 	t_tex	tex;
 
 	tex.rug = 1.;
-	tex.plasti = 0.;
 	tex.refra = 0.;
 	tex.trans = 0.;
 	tex.hidden = 0;
@@ -164,6 +162,8 @@ t_tex		init_tex()
 	tex.ka = init_col(0.0, 0.0, 0.0);
 	tex.kd = init_col(1.0, 1.0, 1.0);
 	tex.ks = init_col(1.0, 1.0, 1.0);
+	tex.plasti = 0.;
+	tex.col_plasti = color_multnb(init_col(1.0, 1.0, 1.0), tex.plasti);
 	return (tex);
 }
 
@@ -294,7 +294,7 @@ t_obj	init_sph(t_v v, t_col col, double r)
 ** Init for cone
 */
 
-t_obj	init_cone(t_v v, t_col col, t_v h, double r)
+t_obj	init_cone(t_v v, t_col col, t_v h, double angle)
 {
             ft_putendlcolor("init_cone();", MAGENTA);
 	t_obj	cone;
@@ -304,12 +304,8 @@ t_obj	init_cone(t_v v, t_col col, t_v h, double r)
 	cone.b = 0;
 	cone.c = 0;
 	cone.d = 0;
-	if (r < 0.01)
-		r = 0.1;
-	else
-		cone.r = r;
 	cone.ori = v;
-	cone.angle = DEG2RAD(20);
+	cone.angle = DEG2RAD(angle);
 	cone.h = h;
 	cone.tex = init_tex();
 	cone.tex.ks = init_col(1.0, 1.0, 1.0);
@@ -356,7 +352,6 @@ t_obj		init_plane2(t_v ori, t_v h, t_v w)
 {
 	t_v		n;
 	t_obj	p;
-	// double	nb;
 
 	n = vect_prod(w, h);
 	vect_normalize(&n);
@@ -370,7 +365,6 @@ t_obj		init_plane2(t_v ori, t_v h, t_v w)
 
 t_ray	init_ray(t_v ori, t_v dir, double t)
 {
-		// ft_putendlcolor("init_ray();", MAGENTA);
 	t_ray	ray;
 
 	ray.ori = ori;
@@ -378,31 +372,3 @@ t_ray	init_ray(t_v ori, t_v dir, double t)
 	ray.t = t;
 	return (ray);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

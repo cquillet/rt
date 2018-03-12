@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 16:03:34 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/02/21 14:59:24 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/12 05:44:03 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,6 @@ void	parse_zob(t_b *b, char *av)
 		b->amb = parse_col(tab[1]);
 	else
 		parse_err(0, "");
-				print_col(b->amb);
 	free_tab((void **)tab);
 }
 
