@@ -6,7 +6,7 @@
 #    By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/27 17:07:31 by vmercadi          #+#    #+#              #
-#    Updated: 2018/03/12 09:51:08 by cquillet         ###   ########.fr        #
+#    Updated: 2018/03/12 05:01:21 by cquillet         ###   ########.fr        #
 #    Updated: 2018/02/16 19:48:27 by cquillet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
@@ -17,8 +17,7 @@ SRC = srcs/maintest2.c srcs/error.c srcs/event.c srcs/vect_calc1.c \
 	srcs/vect_calc2.c srcs/vect_utils.c srcs/utils.c srcs/init.c \
 	srcs/intersections.c srcs/color.c srcs/lux.c srcs/scene.c srcs/matrice.c \
 	srcs/cam.c srcs/vector.c srcs/to_fdf.c srcs/obj.c srcs/calc_obj.c 	\
-	srcs/action.c srcs/event_obj.c srcs/parsing.c srcs/help.c srcs/draw.c \
-	srcs/gradient.c
+	srcs/action.c srcs/event_obj.c srcs/parsing.c srcs/help.c srcs/draw.c
 #srcs/afficahgetest. \
 
 INCLUDES = -I includes -I libft -I lib/SDL2/Headers

@@ -6,7 +6,7 @@
 /*   By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 20:05:58 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 10:12:00 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/12 02:36:54 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,12 @@ double		calc_plane(t_ray *ray, t_obj plane, double min)
 
 	n = init_vect(plane.a, plane.b, plane.c);
 	prod = vect_dot(n, ray->dir);
-	if (barely_zero(prod))
+	if (!prod)
 		return (-1.);
-	if (prod > 0.)
-	{
-		n = vect_multnb(&n, -1.0);
-		prod = -prod;
-	}
 	r = -(vect_dot(n, ray->ori) + plane.d) / prod;
-	return (r < min ? -1. : r);
+	if (r < min)
+		return (-1.);
+	return (r);
 }
 
 /*

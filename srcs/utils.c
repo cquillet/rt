@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 20:08:33 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 11:26:05 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/12 11:27:19 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,17 @@ double		solve_equation(double min, double a, double b, double c)
 	double	ret;
 	double	delta;
 
-	if (barely_zero(a))
+	if (a == 0)
 		return (-c / b);
-	else if (barely_zero((delta = b * b - 4 * a * c)))
-		return (-b / 2 / a);
-	else if (delta < 0.0)
+	if (((delta = b * b - 4 * a * c) < 0))
 		return (-1.);
+	if (delta == 0)
+		return (-b / 2 / a);
 	ret = (-b - sqrt(delta)) / 2 / a;
 	if (ret > min)
 		return (ret);
 	else
-		return ((-b + sqrt(delta)) / 2 / a);
+		return((-b + sqrt(delta)) / 2 / a);
 }
 
 /*

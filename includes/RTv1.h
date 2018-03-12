@@ -6,7 +6,7 @@
 /*   By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 18:44:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 10:04:17 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/12 07:53:27 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,12 +166,11 @@ typedef struct			s_tri
 
 /*
 ** Obj struct containing every kind of object
-** form : 1 = plan, 2 = sph, 3 = cyl, 4 = cone, 5 = triangle
 */
 
 typedef	struct				s_obj
 {
-	int						form;
+	int						form;	//1 = plan, 2 = sph, 3 = cyl, 4 = cone, 5 = tri
 	int						id;
 	double					a;
 	double					b;
@@ -497,28 +496,5 @@ void						help_parsing();
 //void						help_obj();
 //void						usage();
 int							main_help(int ac, char *txt);
-
-/*
-**									| gradent.c
-*/
-
-int							barely_zero(double a);
-int							barely_equals(double a, double b);
-int							scale(int value, int min_max[2],
-														int new_min_max[2]);
-double						scalef(double value, double min_max[2],
-														double new_min_max[2]);
-unsigned int				spectrum_color(int value, int min, int max);
-unsigned int				spectrum_gray(int value, int min, int max);
-unsigned int				rgb_between(int value, int start_end[2],
-													unsigned int color_start,
-													unsigned int color_end);
-unsigned int				spectrum_colorf(double value, double min,
-																	double max);
-unsigned int				spectrum_grayf(double value, double min,
-																	double max);
-unsigned int				rgb_betweenf(double value, double start_end[2],
-													unsigned int color_start,
-													unsigned int color_end);
 
 #endif

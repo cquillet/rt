@@ -6,7 +6,7 @@
 /*   By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 17:49:31 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 10:14:26 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/12 07:18:52 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ double	inter_obj(t_b *b, t_ray *ray)
 			b->inter.n = init_vect(obj->a, obj->b, obj->c);
 		else if (obj->form <= 4)
 			b->inter.n = vect_sub(ray2vect(*ray), obj->ori);
-		if (vect_dot(b->inter.n, ray->dir) > 0.0)
-			b->inter.n = vect_multnb(&b->inter.n, -1);
 		if (obj->form == 3 || obj->form == 4)
 		{
 			h = obj->h;
@@ -41,6 +39,8 @@ double	inter_obj(t_b *b, t_ray *ray)
 				m *= (1.0 + pow(tan(obj->angle), 2.0));
 			b->inter.n = vect_sub(b->inter.n, vect_multnb(&h, m));
 		}
+		if (vect_dot(b->inter.n, ray->dir) > 0.0)
+			b->inter.n = vect_multnb(&b->inter.n, -1);
 	}
 	return (ray->t);
 }
