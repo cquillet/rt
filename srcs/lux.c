@@ -6,73 +6,18 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 18:58:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 07:46:57 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/06 15:18:24 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RTv1.h"
 
 /*
-** Calculate the ambiant lux
-*/
-
-t_col	calc_amb(t_b *b)
-{
-	return (color_mult(b->amb, color_mult(b->inter.tex.ka, b->inter.tex.col)));
-}
-
-/*
-** Calculate the diffuse lux
-*/
-
-t_col	calc_dif(t_lux *lux, t_inter inter)
-{
-	double	dot;
-
-	if ((dot = vect_dot(inter.n, lux->light)) <= 0.0)
-		return (init_col(0.0, 0.0, 0.0));
-	return (color_mult(lux->dif, color_multnb(
-					color_mult(inter.tex.kd, inter.tex.col), dot * lux->atn)));
-}
-
-/*
-** Calculate the specular lux
-*/
-
-t_col	calc_spe(t_lux *lux, t_inter inter, t_v from_eye)
-{
-	t_col	plasti;
-	t_v		refl;
-	double	dot;
-	t_v		to_eye;
-
-	to_eye = vect_multnb(&from_eye, -1);
-	refl = reflect(lux->light, inter.n);
-	if ((dot = vect_dot(refl, to_eye)) <= 0.0)
-		return (init_col(0.0, 0.0, 0.0));
-	plasti = color_add(
-				color_multnb(inter.tex.col, 1 - inter.tex.plasti),
-				inter.tex.col_plasti);
-	return (color_mult(lux->spe, color_multnb(
-										color_mult(inter.tex.ks, plasti),
-										pow(dot, inter.tex.rug) * lux->atn)));
-}
-
-void	calc_atn(t_lux *lux, double dist)
-{
-	lux->atn = lux->amp_cst / (1.0 + lux->amp_lin * dist +
-												lux->amp_quad * dist * dist);
-	if (lux->atn < MARGIN_FLOAT)
-		lux->atn = 0.;
-}
-
-/*
 **	Add a lux to the list
 */
 
-t_lux		*add_lux(t_b *b, t_lux lux)
+t_lux	*add_lux(t_b *b, t_lux lux)
 {
-            ft_putendlcolor("add_lux();", MAGENTA);
 	t_lux	*l;
 
 	if (!b)
@@ -83,10 +28,6 @@ t_lux		*add_lux(t_b *b, t_lux lux)
 		*(b->lux) = lux;
 		b->lux->id = ++b->maxid;
 		b->lux->next = NULL;
-		// b->lux->sph = add_sphere(b, init_sph(b->lux->ori, b->lux->dif));
-		// b->lux->sph->tex.col = b->lux->dif;
-		// b->lux->sph->islux = 1;
-		// b->lux->sph->r = 0.2;
 		return (b->lux);
 	}
 	while (l->next)
@@ -96,10 +37,6 @@ t_lux		*add_lux(t_b *b, t_lux lux)
 	*l = lux;
 	l->id = ++b->maxid;
 	l->next = NULL;
-	// l->sph = add_sphere(b, init_sph(l->ori, l->dif));
-	// l->sph->tex.col = l->dif;
-	// l->sph->islux = 1;
-	// l->sph->r = 0.2;
 	return (l);
 }
 

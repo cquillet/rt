@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 20:02:11 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 05:20:21 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/06 11:47:09 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 t_obj	*add_obj(t_b *b, t_obj obj)
 {
-			ft_putendlcolor("add_obj();", MAGENTA);
 	t_obj	*l;
 
 	if (!b)
@@ -49,7 +48,6 @@ t_obj	*add_obj(t_b *b, t_obj obj)
 
 t_obj	*search_obj(t_b *b, int id)
 {
-			// ft_putendlcolor("search_obj();", MAGENTA);
 	t_obj	*l;
 
 	if (id <= 0 || !b)
@@ -68,7 +66,6 @@ t_obj	*search_obj(t_b *b, int id)
 
 void	delete_obj(t_b *b, int id)
 {
-			ft_putendlcolor("delete_obj();", MAGENTA);
 	t_obj	*obj;
 	t_obj	*obj2;
 

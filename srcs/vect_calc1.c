@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:03:13 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/01/27 17:35:40 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/06 17:39:20 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_v		vect_sub(t_v a, t_v b)
 ** Dot product (produit scalaire)
 */
 
-double		vect_dot(t_v a, t_v b)
+double	vect_dot(t_v a, t_v b)
 {
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }

@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 19:00:15 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 07:51:09 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/08 17:30:45 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 double		vect_norme2(t_v v)
 {
-			// ft_putendlcolor("vect_norme2();", MAGENTA);
 	return((v.x * v.x) + (v.y * v.y) + (v.z * v.z));
 }
 
@@ -28,7 +27,6 @@ double		vect_norme2(t_v v)
 
 double		vect_norme(t_v v)
 {
-			// ft_putendlcolor("vect_norme();", MAGENTA);
 	return(sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z)));
 }
 
@@ -38,7 +36,6 @@ double		vect_norme(t_v v)
 
 void		vect_normalize(t_v *v)
 {
-			// ft_putendlcolor("vect_normalize();", MAGENTA);
 	double n;
 
 	n = vect_norme(*v);
@@ -47,21 +44,12 @@ void		vect_normalize(t_v *v)
 	v->z /= n;
 }
 
-t_v			reflect(t_v v, t_v n)
-{
-	return (vect_add(vect_multnb(&v, -1), vect_multnb(&n, 2 * vect_dot(v, n))));
-}
-
 /*
-** La précession = autour de l'axe Oz, fait passer de (O,x,y,z) au référentiel (O,u,v,z) (en bleu).
-** La nutation = autour de l'axe Ou (ligne des nœuds), fait passer de (O,u,v,z) à (O,u,w,z’) (en vert).
-** La rotation propre ou giration = autour de l'axe Oz’, fait passer de (O,u,w,z’) au référentiel lié au solide (O,x’,y’,z’) (en rouge).
-**	i + s * q + (1-c) * q*q
+** Rotate a vector
 */
 
 t_v		vect_rotate(t_v v, double angle, t_v axe)
 {
-			// ft_putendlcolor("vect_rotate_xy();", MAGENTA);
 	t_v 		tmp;
 	t_matrice	q;
 	t_matrice	r;
@@ -89,5 +77,6 @@ t_v		vect_rotate(t_v v, double angle, t_v axe)
 
 void		vect_print(t_v v)
 {
-	printf("x = %f | y = %f | z = %f\n", v.x, v.y, v.z);
+	v = (t_v)v;
+	////ft_printf("x = %f | y = %f | z = %f\n", v.x, v.y, v.z);
 }

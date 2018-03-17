@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 22:14:22 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/02/17 21:06:06 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/08 17:42:15 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	to_fdf(t_b *b, char *name)
 	int i;
 	int j;
 
-	if ((fd = open(name, O_WRONLY | O_CREAT)) < 0)
-		error(2);
+	if ((fd = open(name, O_RDONLY | O_WRONLY | O_CREAT)) < 0)
+		error_quit(2);
 	i = 0;
 	while (i < b->winy)
 	{

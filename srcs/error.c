@@ -6,22 +6,35 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 16:56:39 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/01/30 22:19:18 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/06 15:07:23 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RTv1.h"
 
-void	error()
-{
-
-}
-
 void	error_quit(int e)
 {
 	if (e == 1)
-		ft_putendl_fd("FAILED to init SDL" ,2);
+		ft_putendl_fd("FAILED to init SDL", 2);
 	else if (e == 2)
 		ft_putendl("FAILED to open file");
-	exit (e);
+	exit(e);
+}
+
+/*
+** Errors happened while parsing
+*/
+
+void	parse_err(int e, char *s)
+{
+	if (e == 0)
+		ft_putstrcolor("Error in obj name : ", RED);
+	else if (e == 1)
+		ft_putstrcolor("Some double is not well formated : ", RED);
+	else if (e == 2)
+		ft_putstrcolor("Some vector is not well formated : ", RED);
+	else if (e == 3)
+		ft_putstrcolor("The file given is not a scene : ", RED);
+	ft_putendl(s);
+	exit(1);
 }

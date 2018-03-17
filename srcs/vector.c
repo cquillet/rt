@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 19:45:14 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/01/30 20:34:13 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/06 17:42:59 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 **	Add a vector into the list
 */
 
-t_vl		*add_vl(t_b *b, t_vl vl)
+t_vl	*add_vl(t_b *b, t_vl vl)
 {
 	t_vl	*l;
 
@@ -44,13 +44,11 @@ t_vl		*add_vl(t_b *b, t_vl vl)
 
 t_vl	*search_vl(t_b *b, int id)
 {
-			ft_putendlcolor("search_vl();", MAGENTA);
 	t_vl	*l;
-			printf("ID SEARCH = %d\n", id);
+
 	if (id <= 0 || !b || !b->vl)
 		return (NULL);
 	l = b->vl;
-	printf("search = %p\n", l);
 	while (l && l->id != id)
 		l = l->next;
 	return (l);

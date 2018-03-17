@@ -6,11 +6,29 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 16:58:03 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 07:46:20 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/06 15:15:48 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RTv1.h"
+
+unsigned int	spectrum_color(int value, int min, int max)
+{
+	int		c;
+
+	c = (value - min) * 0xffffff / (max - min);
+	if (c < 0xFF)
+		return (0xFF00FE - c);
+	if (c < 0x1FE)
+		return (0xFF0100 + ((c - 0xFF) << 8));
+	if (c < 0x2FD)
+		return (0xFEFF00 - ((c - 0x1FE) << 16));
+	if (c < 0x3FC)
+		return (0x00FF01 + (c - 0x2FD));
+	if (c < 0x4FB)
+		return (0x00FEFF - ((c - 0x3FC) << 8));
+	return (0x0100FF + ((c - 0x4FB) << 16));
+}
 
 /*
 ** Return the color
@@ -18,9 +36,9 @@
 
 t_col			get_color(t_b *b, t_ray ray)
 {
-	t_col			col;
-	t_lux			*lux;
-	t_ray			to_light;
+	t_col		col;
+	t_lux		*lux;
+	t_ray		to_light;
 
 	if (ray.t >= b->max - MARGIN_FLOAT)
 		return (init_col(0.0, 0.0, 0.0));
@@ -36,69 +54,15 @@ t_col			get_color(t_b *b, t_ray ray)
 			lux->light = to_light.dir;
 			calc_atn(lux, vect_norme(lux->light));
 			vect_normalize(&lux->light);
-			col = color_add(col, calc_dif(lux, b->inter));
-			col = color_add(col, calc_spe(lux, b->inter, ray.dir));
+			calc_dif(lux, b->inter);
+			col = color_add(col, lux->lum_dif);
+			calc_spe(lux, b->inter, vect_multnb(&ray.dir, -1));
+			col = color_add(col, lux->lum_spe);
 		}
 		lux = lux->next;
 	}
 	color_max(&col, &b->colmax);
 	return (col);
-}
-
-/*
-** Add 2 colors and return the result
-*/
-
-t_col			color_add(t_col col, t_col col2)
-{
-	t_col			tmp;
-
-	tmp.r = col.r + col2.r;
-	tmp.g = col.g + col2.g;
-	tmp.b = col.b + col2.b;
-	return (tmp);
-}
-
-/*
-** Multiply 2 colors and return the result
-*/
-
-t_col			color_mult(t_col col, t_col col2)
-{
-	t_col			tmp;
-
-	tmp.r = col.r * col2.r;
-	tmp.g = col.g * col2.g;
-	tmp.b = col.b * col2.b;
-	return (tmp);
-}
-
-/*
-** Multiply a color by nb
-*/
-
-t_col			color_multnb(t_col col, double nb)
-{
-	t_col			tmp;
-
-	tmp.r = col.r * nb;
-	tmp.g = col.g * nb;
-	tmp.b = col.b * nb;
-	return (tmp);
-}
-
-/*
-** return the result of a color power n
-*/
-
-t_col			color_pow(t_col col, double n)
-{
-	t_col			tmp;
-
-	tmp.r = pow(col.r, n);
-	tmp.g = pow(col.g, n);
-	tmp.b = pow(col.b, n);
-	return (tmp);
 }
 
 /*
@@ -119,7 +83,6 @@ void			color_sat(t_col *col)
 		col->b = 1.0;
 	else if (col->b < 0.0)
 		col->b = 0.0;
-
 }
 
 void			color_max(t_col *col, double *colmax)
@@ -141,33 +104,8 @@ void			color_max(t_col *col, double *colmax)
 /*
 ** Gamma correction = coeff * (col ^ gamma)
 */
-t_col			gamma_corr(t_col col, double coeff, double gamma)
+
+t_col	gamma_corr(t_col col, double coeff, double gamma)
 {
 	return (color_multnb(color_pow(col, gamma), coeff));
-}
-
-/*
-** Convert a t_col to an unsigned int color
-*/
-
-unsigned int	col2int(t_col col)
-{
-	unsigned int	r;
-	unsigned int	g;
-	unsigned int	b;
-
-	r = 0xff & (unsigned int)(col.r * 255.0);
-	g = 0xff & (unsigned int)(col.g * 255.0);
-	b = 0xff & (unsigned int)(col.b * 255.0);
-	return ((r << 16) | (g << 8) | b);
-}
-
-t_col			int2col(unsigned int color)
-{
-	t_col			col;
-
-	col.r = ((double)((color >> 16) & 255)) / 255.0;
-	col.g = ((double)((color >> 8) & 255)) / 255.0;
-	col.b = ((double)((color) & 255)) / 255.0;
-	return (col);
 }

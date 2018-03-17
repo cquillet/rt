@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calc_obj.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 20:05:58 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 02:36:54 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/06 11:03:31 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ double		calc_sphere(t_ray *ray, t_obj sph, double min)
 	t_v		ori;
 
 	ori = vect_sub(ray->ori, sph.ori);
-	ret = solve_equation(min, vect_norme2(ray->dir),
-				2 * vect_dot(ray->dir, ori), vect_norme2(ori) - sph.r * sph.r);
+	ret = solve_equation(min, vect_norme2(ray->dir), 2 *
+		vect_dot(ray->dir, ori), vect_norme2(ori) - sph.r * sph.r);
 	return (ret);
 }
 
@@ -63,7 +63,7 @@ double		calc_cyl(t_ray *ray, t_obj cyl, double min)
 	vect_normalize(&h);
 	dot[0] = vect_dot(ray->dir, h);
 	dot[1] = vect_dot(ori, h);
-	coeff[0] = vect_norme2(ray->dir) - dot[0] * dot[0];
+	coeff[0] = vect_norme2(ray->dir) - dot[0] * dot[0];// / vect_norme2(cyl.h);
 	coeff[1] = 2 * (vect_dot(ray->dir, ori) - dot[0] * dot[1]);
 	coeff[2] = vect_norme2(ori) - dot[1] * dot[1] - cyl.r * cyl.r;
 	return (solve_equation(min, coeff[0], coeff[1], coeff[2]));

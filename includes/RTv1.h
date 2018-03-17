@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RTv1.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 18:44:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 07:53:27 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/06 14:43:17 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # define DEG2RAD(x) (x * M_PI / 180.0)
 					#include <stdio.h>
 
+
+//Specular entre le rayon envoyé et le rayon de la lumiere et on blanchi le pixel
 
 /*
 ** struct for a basic vector
@@ -76,7 +78,6 @@ typedef struct				s_tex
 	t_col					ka;			//coef lum ambiant
 	t_col					kd;			//coef lum diffuse
 	t_col					ks;			//coef lum specular
-	t_col					col_plasti;
 }							t_tex;
 
 /*
@@ -159,10 +160,10 @@ typedef struct				s_cam
 
 typedef struct			s_tri
 {
-	t_v						v[3];
-	t_v						vt[3];
-	t_v						vn[3];
-}							t_tri;
+	t_v					v[3];
+	t_v					vt[3];
+	t_v					vn[3];
+}						t_tri;
 
 /*
 ** Obj struct containing every kind of object
@@ -261,15 +262,10 @@ typedef struct				s_b
 ** main functions						| maintest2.c
 */
 
-void						render(t_b *b);
-void						ray_cast(t_b *b, t_px *px, t_ray *ray);
-
-/*
-** drawing functions					| draw.c
-*/
-
+void						rt(t_b *b);
 void						draw(t_b *b);
 void						draw_lux(t_b *b);
+
 
 /*
 ** Structs inits						| init.c
@@ -277,29 +273,37 @@ void						draw_lux(t_b *b);
 
 void						init_b(t_b *b);
 void						init_win(t_b *b);
-void						init_vp(t_b *b);
 void						init_cam(t_b *b);
-t_v							init_vect(double x, double y, double z);
-t_vl						init_vl(t_v v, int id);
 t_lux						init_lux(t_v pos, t_col dif, t_col spe);
-t_obj						init_sph(t_v v, t_col color, double r);
-t_col						init_col(double r, double g, double b);
-t_obj						init_plane(double a, double b, double c, double d, t_col col);
-t_tex						init_tex();
-void						init_inter(t_inter *inter);
-t_matrice					init_matrice();
-t_obj						init_cone(t_v v, t_col col, t_v h, double angle);
-t_obj						init_cyl(t_v v, t_col col, t_v h, double r);
-t_act						init_act(t_obj *obj1, int action, int axis);
-t_ray						init_ray(t_v ori, t_v dir, double t);
-
 
 /*
-**	Errors								| error.c
+** Init for the obj structs				| init_obj.c
 */
 
-void						error();
-void						error_quit(int e);
+t_obj						init_plane(double a, double b, double c, double d, t_col col);
+t_obj						init_plane2(t_v ori, t_v h, t_v w);
+t_obj						init_sph(t_v v, t_col color, double r);
+t_obj						init_cone(t_v v, t_col col, t_v h, double r);
+t_obj						init_cyl(t_v v, t_col col, t_v h, double r);
+
+/*
+** Init for vect, col, matrice, etc		| init_data.c
+*/
+
+t_col						init_col(double r, double g, double b);
+t_ray						init_ray(t_v ori, t_v dir, double t);
+t_v							init_vect(double x, double y, double z);
+t_vl						init_vl(t_v v, int id);
+t_matrice					init_matrice();
+
+/*
+** Inits that does not fit in a file with cool name | init_sheit.c
+*/
+
+void						init_vp(t_b *b);
+t_tex						init_tex();
+void						init_inter(t_inter *inter);
+t_act						init_act(t_obj *obj1, int action, int axis);
 
 /*
 **	Main & loop							| main.c
@@ -312,8 +316,7 @@ void						ray(t_b *b);
 **	Utilitaries							| Utils.c
 */
 
-t_v							dir_vp_pixel(t_b *b, t_px px);
-t_v							dir_vp_upleft(t_b *b);
+t_v							draw_pixelvp(t_b *b, t_px px);
 t_v							ray2vect(t_ray ray);
 double						solve_equation(double min, double a, double b, double c);
 t_px						pos2px(t_b *b, t_v v);
@@ -324,15 +327,21 @@ void						print_obj(t_obj *obj);
 ** Catch the events						| event.c
 */
 
-int							event();
-void						ev_move_cam(t_b *b, int ev);
-void						ev_rotate_xy(t_b *b, int ev);
+int							event(t_b *b);
 void						ev_qualitat(t_b *b, int ev);
 void						ev_gamma(t_b *b, int ev);
 void						ev_reset(t_b *b);
 
 /*
-** Event on objects						| event_obj.c
+** Movement events						| event_move.c
+*/
+
+int							event_move(t_b *b, int ev);
+void						ev_move_cam(t_b *b, int ev);
+void						ev_rotate_xy(t_b *b, int ev);
+
+/*
+** Event on objects
 */
 
 void						event_obj(t_b *b, int ev);
@@ -367,7 +376,6 @@ void						vect_print(t_v v);
 void						vect_normalize(t_v *v);
 t_v							vect_rotate(t_v v, double angle, t_v axe);
 t_v							vect_init(double x, double y, double z);
-t_v							reflect(t_v v, t_v n);
 
 /*
 ** Vector list actions					| vector.c
@@ -377,20 +385,31 @@ t_vl						*add_vl(t_b *b, t_vl vl);
 t_vl						*search_vl(t_b *b, int id);
 
 /*
-** Utilitaries for color				| color.c
+** Some color functions					| color.c
 */
 
 unsigned int				spectrum_color(int value, int min, int max);
 t_col						get_color(t_b *b, t_ray ray);
+void						color_sat(t_col *col);
+void						color_max(t_col *col, double *colmax);
+t_col						gamma_corr(t_col col, double coeff, double gamma);
+
+/*
+** Utilitaries for color				| color_utils.c
+*/
+
+unsigned int				col2int(t_col col);
+t_col						int2col(unsigned int color);
+void						print_col(t_col col);
+
+/*
+** Calculation on colors				| color_calc.c
+*/
+
 t_col						color_add(t_col col, t_col col2);
 t_col						color_mult(t_col col, t_col col2);
 t_col						color_multnb(t_col col, double nb);
 t_col						color_pow(t_col col, double n);
-void						color_sat(t_col *col);
-void						color_max(t_col *col, double *colmax);
-t_col						gamma_corr(t_col col, double coeff, double gamma);
-unsigned int				col2int(t_col col);
-t_col						int2col(unsigned int color);
 
 /*
 ** Intercept for objs 					| intersection.c
@@ -421,12 +440,17 @@ void						delete_obj(t_b *b, int id);
 ** Lux									| lux.c
 */
 
-t_col						calc_amb(t_b *b);
-t_col						calc_dif(t_lux *lux, t_inter inter);
-t_col						calc_spe(t_lux *lux, t_inter inter, t_v from_eye);
-void						calc_atn(t_lux *lux, double dist);
 t_lux						*add_lux(t_b *b, t_lux lux);
 t_lux						*search_lux(t_b *b, int id);
+
+/*
+** Calculations for lux					| lux_cal.c
+*/
+
+t_col						calc_amb(t_b *b);
+void						calc_dif(t_lux *lux, t_inter inter);
+void						calc_spe(t_lux *lux, t_inter inter, t_v to_eye);
+void						calc_atn(t_lux *lux, double dist);
 
 /*
 ** The differents scenes
@@ -438,6 +462,7 @@ void						scene3(t_b *b);
 void						scene4(t_b *b);
 void						scene5(t_b *b);
 void						scene6(t_b *b);
+void						scene7(t_b *b);
 
 /*
 ** Matrice calculations functions
@@ -480,21 +505,47 @@ void						to_fdf(t_b *b, char *name);
 ** Parsing							| parsing.c
 */
 
+void						help_parsing();
 void						parse_main(t_b *b, char *av);
 void						parse_zob(t_b *b, char *av);
+
+/*
+** Utils for parsing special format | parsing_utils.c
+*/
+
 t_v							parse_vect(char *s);
 t_col						parse_col(char *s);
 double						parse_double(char *s);
-void						parse_err(int e, char *s);
 
 /*
 ** help functions					| help.c
 */
 
-//void						man_help();
+void						man_help();
 void						help_parsing();
-//void						help_obj();
-//void						usage();
-int							main_help(int ac, char *txt);
+void						help_obj();
+void						usage();
+
+/*
+**	Errors								| error.c
+*/
+
+void						error();
+void						error_quit(int e);
+void						parse_err(int e, char *s);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif

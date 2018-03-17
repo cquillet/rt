@@ -6,16 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/17 20:41:59 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/02/17 21:06:10 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/06 17:37:20 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RTv1.h"
-
-
-// Need remplacer les putnbr par des putfloat
-
-
 
 /*
 ** Create a file scene based on the actual image
@@ -57,13 +52,4 @@ void	obj2file(t_obj obj, int fd)
 	j += b->aliasing;
 	i += b->aliasing;
 	ft_putchar_fd('\n', fd);
-}
-
-/*
-** print the luxs in the scene file
-*/
-
-void	lux2file(t_lux *lux, int fd)
-{
-
 }
