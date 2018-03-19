@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:27:30 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 15:19:14 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/19 19:34:41 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 ** Init for the plane
 */
 
-t_obj		init_plane(double a, double b, double c, double d, t_col col)
+t_obj		init_plane(t_v n, double d, t_col col)
 {
 	t_obj plane;
 
 	plane.form = 1;
-	if (!a && !b && !c && !d)
-		plane.b = 1.0;
-	plane.a = a;
-	plane.b = b;
-	plane.c = c;
+	plane.a = n.x;
+	plane.b = n.y;
+	plane.c = n.z;
 	plane.d = d;
+	if (!n.x && !n.y && !n.z)
+		plane.b = 1.0;
 	plane.r = 0;
 	plane.h = init_vect(0.0, 0.0, 0.0);
 	plane.ori = init_vect(0.0, 0.0, 0.0);
@@ -50,7 +50,7 @@ t_obj		init_plane2(t_v ori, t_v h, t_v w)
 
 	n = vect_prod(w, h);
 	vect_normalize(&n);
-	p = init_plane(n.x, n.y, n.z, -vect_dot(n, ori), init_col(1.0, 1.0, 1.0));
+	p = init_plane(n, -vect_dot(n, ori), init_col(1.0, 1.0, 1.0));
 	return (p);
 }
 

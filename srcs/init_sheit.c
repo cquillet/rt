@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:38:45 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/08 18:13:16 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/19 19:26:02 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ void	init_vp(t_b *b)
 	b->vp.xi = b->vp.w / (double)b->winx;
 	b->vp.yi = b->vp.h / (double)b->winy;
 	b->vp.dist = 1.0;
-	b->vp.upleft = vect_add(b->cam.pos,
-		 vect_add(vect_multnb(&b->cam.dir, b->vp.dist),
-		 vect_multnb(&b->cam.dirup, b->vp.h / 2))),
-		 vect_multnb(&b->cam.dirright, -b->vp.w / 2);
+	b->vp.upleft = vect_add(b->cam.pos, dir_vp_upleft(b));
 }
 
 /*
@@ -68,7 +65,7 @@ t_tex	init_tex(void)
 
 t_act	init_act(t_obj *obj1, int action, int axis)
 {
-	t_act act;
+	t_act	act;
 
 	act.action = action;
 	act.obj1 = obj1;

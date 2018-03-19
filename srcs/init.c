@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:12:09 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 15:15:39 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/19 19:16:03 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ void	init_win(t_b *b)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
 		error_quit(1);
-	if (!(b->win = SDL_CreateWindow("RTv1",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,
-		 b->winx, b->winy, SDL_WINDOW_SHOWN)))
+	if (!(b->win = SDL_CreateWindow("RTv1", SDL_WINDOWPOS_CENTERED,
+											SDL_WINDOWPOS_CENTERED,
+											b->winx,
+											b->winy,
+											SDL_WINDOW_SHOWN)))
 		error_quit(1);
 	b->img = SDL_GetWindowSurface(b->win);
 }

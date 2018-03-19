@@ -23,44 +23,37 @@
 double	inter_obj(t_b *b, t_ray *ray)
 {
 	t_obj	*obj;
-	int		id;
 	double	m;
 	t_v		h;
 
-	if ((id = inter_all(b, ray, 1.0)) > 0)
+	if ((b->inter.id = inter_all(b, ray, 1.0)) > 0)
 	{
-		b->inter.id = id;
 		obj = search_obj(b, b->inter.id);
+		b->inter.tex = obj->tex;
 		if (obj->form == 1)
 			b->inter.n = init_vect(obj->a, obj->b, obj->c);
-		else if (obj->form == 2)
+		else if (obj->form <= 4)
 			b->inter.n = vect_sub(ray2vect(*ray), obj->ori);
-		else if (obj->form == 3)
+		if (obj->form == 3 || obj->form == 4)
 		{
 			h = obj->h;
 			vect_normalize(&h);
-			m = vect_dot(ray->dir, h) * ray->t + vect_dot(vect_sub(ray->ori, obj->ori), h);
-			b->inter.n = vect_sub(ray2vect(*ray), vect_add(obj->ori, vect_multnb(&h, m)));
-		}
-		else if (obj->form == 4)
-		{
-			h = obj->h;
-			vect_normalize(&h);
-			m = (vect_dot(ray->dir, h) * ray->t + vect_dot(vect_sub(ray->ori, obj->ori), h)) * (1.0 + pow(tan(obj->angle), 2.0));
-			b->inter.n = vect_sub(ray2vect(*ray), vect_add(obj->ori, vect_multnb(&h, m)));
+			m = vect_dot(b->inter.n, h);
+			if (obj->form == 4)
+				m *= (1.0 + pow(tan(obj->angle), 2.0));
+			b->inter.n = vect_sub(b->inter.n, vect_multnb(&h, m));
 		}
 		if (vect_dot(b->inter.n, ray->dir) > 0.0)
 			b->inter.n = vect_multnb(&b->inter.n, -1);
-		b->inter.tex = obj->tex;
 	}
 	return (ray->t);
 }
 
 /*
-** Check intersction of all the objects of the world and the universe and not clement
+** Check intersection between impact and the lights
 */
 
-int	inter_obj_lux(t_b *b, t_ray *to_light)
+int		inter_obj_lux(t_b *b, t_ray *to_light)
 {
 	to_light->t = 1.0;
 	return (inter_all(b, to_light, MARGIN_FLOAT));

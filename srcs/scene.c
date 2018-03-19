@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/26 14:22:46 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/08 18:57:42 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/19 19:39:01 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	scene1(t_b *b)
 	add_obj(b, init_sph(init_vect(2, 0, 5), init_col(0.6, 0.2, 0.2), 1.0));
 	add_obj(b, init_sph(init_vect(-2, 2, 5), init_col(1.0, 1.0, 1.0), 1.0));
 	add_obj(b, init_sph(init_vect(0, -2, 5), init_col(1.0, 1.0, 0.0), 1.0));
-	add_obj(b, init_plane(0.0, 1.0, 0.0, 3.0, init_col(0.1, 0.0, 0.0)));
+	add_obj(b, init_plane(init_vect(0.0, 1.0, 0.0), 3.0, init_col(0.1, 0.0, 0.0)));
 	add_action(b, init_act(b->obj, 2, 3));
 	b->act->speed *= 10;
 	b->act->max = 10;
@@ -60,15 +60,15 @@ void	scene2(t_b *b)
 	obj->tex.ks = init_col(1., 1., 1.);
 //	obj->tex.rug = 3.;
 	//Mur fond
-	add_obj(b, init_plane(0.0, 0.0, 1.0, -10.0, init_col(1.0, 0.0, 1.0)));
+	add_obj(b, init_plane(init_vect(0.0, 0.0, 1.0), -10.0, init_col(1.0, 0.0, 1.0)));
 	//Mur droite
-	add_obj(b, init_plane(0.0, 1.0, 0.0, -3.0, init_col(1.0, 0.0, 0.0)));
+	add_obj(b, init_plane(init_vect(0.0, 1.0, 0.0), -3.0, init_col(1.0, 0.0, 0.0)));
 	//Mur gauche
-	add_obj(b, init_plane(0.0, 1.0, 0.0, 3.0, init_col(0.0, 1.0, 0.0)));
+	add_obj(b, init_plane(init_vect(0.0, 1.0, 0.0), 3.0, init_col(0.0, 1.0, 0.0)));
 	//Plafond
-	add_obj(b, init_plane(1.0, 0.0, 0.0, -3.0, init_col(0.0, 0.0, 1.0)));
+	add_obj(b, init_plane(init_vect(1.0, 0.0, 0.0), -3.0, init_col(0.0, 0.0, 1.0)));
 	//sol
-	add_obj(b, init_plane(1.0, 0.0, 0.0, 3.0, init_col(0.5, 0.5, 0.5)));
+	add_obj(b, init_plane(init_vect(1.0, 0.0, 0.0), 3.0, init_col(0.5, 0.5, 0.5)));
 	b->amb = init_col(1.0, 1.0, 1.0);
 }
 
@@ -85,7 +85,7 @@ void	scene3(t_b *b)
 
 	add_obj(b, init_sph(init_vect(0, 2, 10), init_col(1.0, 1.0, 0.0), 1.0));
 	add_obj(b, init_sph(init_vect(2, 0, 10), init_col(1.0, 0.0, 0.0), 1.0));
-	add_obj(b, init_plane(0.0, 1.0, 0.0, 3.0, init_col(1.0, 0.0, 0.0)));
+	add_obj(b, init_plane(init_vect(0.0, 1.0, 0.0), 3.0, init_col(1.0, 0.0, 0.0)));
 }
 
 void	scene4(t_b *b)
@@ -208,25 +208,25 @@ void	scene5(t_b *b)
 	// act->speed = 10;
 	act->max = 10;
 	act->min = -10;
-	add_obj(b, init_plane(0.0, 0.0, 1.0, -10.0, init_col(COL_WHITESMOKE)));
+	add_obj(b, init_plane(init_vect(0.0, 0.0, 1.0), -10.0, init_col(COL_WHITESMOKE)));
 	//Mur droite
-	add_obj(b, init_plane(0.0, 1.0, 0.0, -3.5, init_col(COL_BLUE)));
+	add_obj(b, init_plane(init_vect(0.0, 1.0, 0.0), -3.5, init_col(COL_BLUE)));
 	//Mur gauche
-	add_obj(b, init_plane(0.0, 1.0, 0.0, 3.5, init_col(COL_RED)));
+	add_obj(b, init_plane(init_vect(0.0, 1.0, 0.0), 3.5, init_col(COL_RED)));
 	//Plafond
-	add_obj(b, init_plane(1.0, 0.0, 0.0, -3.5, init_col(COL_YELLOW)));
+	add_obj(b, init_plane(init_vect(1.0, 0.0, 0.0), -3.5, init_col(COL_YELLOW)));
 	//sol
-	add_obj(b, init_plane(1.0, 0.0, 0.0, 3.5, init_col(COL_GREEN)));
+	add_obj(b, init_plane(init_vect(1.0, 0.0, 0.0), 3.5, init_col(COL_GREEN)));
 
-	// add_obj(b, init_plane(0.0, 0.0, 1.0, -10.0, init_col(COL_WHITESMOKE)));
+	// add_obj(b, init_plane(init_vect(0.0, 0.0, 1.0), -10.0, init_col(COL_WHITESMOKE)));
 	// //Mur droite
-	// add_obj(b, init_plane(0.0, 1.0, 0.0, -3.5, init_col(COL_WHITESMOKE)));
+	// add_obj(b, init_plane(init_vect(0.0, 1.0, 0.0), -3.5, init_col(COL_WHITESMOKE)));
 	// //Mur gauche
-	// add_obj(b, init_plane(0.0, 1.0, 0.0, 3.5, init_col(COL_WHITESMOKE)));
+	// add_obj(b, init_plane(init_vect(0.0, 1.0, 0.0), 3.5, init_col(COL_WHITESMOKE)));
 	// //Plafond
-	// add_obj(b, init_plane(1.0, 0.0, 0.0, -3.5, init_col(COL_WHITESMOKE)));
+	// add_obj(b, init_plane(init_vect(1.0, 0.0, 0.0), -3.5, init_col(COL_WHITESMOKE)));
 	// //sol
-	// add_obj(b, init_plane(1.0, 0.0, 0.0, 3.5, init_col(COL_WHITESMOKE)));
+	// add_obj(b, init_plane(init_vect(1.0, 0.0, 0.0), 3.5, init_col(COL_WHITESMOKE)));
 	// b->amb = init_col(1.0, 1.0, 1.0);
 
 }
@@ -247,15 +247,15 @@ void	scene6(t_b *b)
 
 	add_obj(b, init_sph(init_vect(0, 0, 8), init_col(1.0, 1.0, 1.0), 1.0));
 
-	add_obj(b, init_plane(0.0, 0.0, 1.0, -10.0, init_col(COL_WHITESMOKE)));
+	add_obj(b, init_plane(init_vect(0.0, 0.0, 1.0), -10.0, init_col(COL_WHITESMOKE)));
 	//Mur droite
-	add_obj(b, init_plane(0.0, 1.0, 0.0, -3.5, init_col(COL_WHITESMOKE)));
+	add_obj(b, init_plane(init_vect(0.0, 1.0, 0.0), -3.5, init_col(COL_WHITESMOKE)));
 	//Mur gauche
-	add_obj(b, init_plane(0.0, 1.0, 0.0, 3.5, init_col(COL_WHITESMOKE)));
+	add_obj(b, init_plane(init_vect(0.0, 1.0, 0.0), 3.5, init_col(COL_WHITESMOKE)));
 	//Plafond
-	add_obj(b, init_plane(1.0, 0.0, 0.0, -3.5, init_col(COL_WHITESMOKE)));
+	add_obj(b, init_plane(init_vect(1.0, 0.0, 0.0), -3.5, init_col(COL_WHITESMOKE)));
 	//sol
-	add_obj(b, init_plane(1.0, 0.0, 0.0, 3.5, init_col(COL_WHITESMOKE)));
+	add_obj(b, init_plane(init_vect(1.0, 0.0, 0.0), 3.5, init_col(COL_WHITESMOKE)));
 	// add_obj(b, init_cyl(init_vect(2, 2, 3), init_col(0.0, 0.0, 1.0), init_vect(1.0, 0.0, 0.0), 1));
 	// add_obj(b, init_cone(init_vect(0, 0, 5), init_col(0.0, 0.0, 1.0), init_vect(0.0, 1.0, 0.0), 1.0));
 	// add_obj(b, init_cone(init_vect(0, 0, 10), init_col(0.0, 1.0, 0.0), init_vect(0.0, 1.0, 0.0), 1.0));
@@ -288,19 +288,19 @@ void	scene7(t_b *b)
 
 	add_obj(b, init_sph(init_vect(0, 0, 8), init_col(1.0, 1.0, 1.0), 1.0));
 
-	add_obj(b, init_plane(0.0, 0.0, 1.0, -10.0, init_col(COL_WHITESMOKE)));
+	add_obj(b, init_plane(init_vect(0.0, 0.0, 1.0), -10.0, init_col(COL_WHITESMOKE)));
 	//Mur droite
-	add_obj(b, init_plane(0.0, 1.0, 0.0, -3.5, init_col(COL_WHITESMOKE)));
+	add_obj(b, init_plane(init_vect(0.0, 1.0, 0.0), -3.5, init_col(COL_WHITESMOKE)));
 	//Mur mid y
-	add_obj(b, init_plane(0.0, 1.0, 0.0, 0, init_col(COL_WHITESMOKE)));
+	add_obj(b, init_plane(init_vect(0.0, 1.0, 0.0), 0, init_col(COL_WHITESMOKE)));
 	//Mur mid x
-	add_obj(b, init_plane(1.0, 0.0, 0.0, 0, init_col(COL_WHITESMOKE)));
+	add_obj(b, init_plane(init_vect(1.0, 0.0, 0.0), 0, init_col(COL_WHITESMOKE)));
 	//Mur gauche
-	add_obj(b, init_plane(0.0, 1.0, 0.0, 3.5, init_col(COL_WHITESMOKE)));
+	add_obj(b, init_plane(init_vect(0.0, 1.0, 0.0), 3.5, init_col(COL_WHITESMOKE)));
 	//Plafond
-	add_obj(b, init_plane(1.0, 0.0, 0.0, -3.5, init_col(COL_WHITESMOKE)));
+	add_obj(b, init_plane(init_vect(1.0, 0.0, 0.0), -3.5, init_col(COL_WHITESMOKE)));
 	//sol
-	add_obj(b, init_plane(1.0, 0.0, 0.0, 3.5, init_col(COL_WHITESMOKE)));
+	add_obj(b, init_plane(init_vect(1.0, 0.0, 0.0), 3.5, init_col(COL_WHITESMOKE)));
 	// add_obj(b, init_cyl(init_vect(2, 2, 3), init_col(0.0, 0.0, 1.0), init_vect(1.0, 0.0, 0.0), 1));
 	// add_obj(b, init_cone(init_vect(0, 0, 5), init_col(0.0, 0.0, 1.0), init_vect(0.0, 1.0, 0.0), 1.0));
 	// add_obj(b, init_cone(init_vect(0, 0, 10), init_col(0.0, 1.0, 0.0), init_vect(0.0, 1.0, 0.0), 1.0));

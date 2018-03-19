@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 18:44:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 14:43:17 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/19 19:39:32 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct				s_tex
 	t_col					ka;			//coef lum ambiant
 	t_col					kd;			//coef lum diffuse
 	t_col					ks;			//coef lum specular
+	t_col					col_plasti;
 }							t_tex;
 
 /*
@@ -158,12 +159,12 @@ typedef struct				s_cam
 ** Struct for triangles
 */
 
-typedef struct			s_tri
+typedef struct				s_tri
 {
-	t_v					v[3];
-	t_v					vt[3];
-	t_v					vn[3];
-}						t_tri;
+	t_v						v[3];
+	t_v						vt[3];
+	t_v						vn[3];
+}							t_tri;
 
 /*
 ** Obj struct containing every kind of object
@@ -280,7 +281,7 @@ t_lux						init_lux(t_v pos, t_col dif, t_col spe);
 ** Init for the obj structs				| init_obj.c
 */
 
-t_obj						init_plane(double a, double b, double c, double d, t_col col);
+t_obj						init_plane(t_v n, double d, t_col col);
 t_obj						init_plane2(t_v ori, t_v h, t_v w);
 t_obj						init_sph(t_v v, t_col color, double r);
 t_obj						init_cone(t_v v, t_col col, t_v h, double r);
@@ -316,7 +317,8 @@ void						ray(t_b *b);
 **	Utilitaries							| Utils.c
 */
 
-t_v							draw_pixelvp(t_b *b, t_px px);
+t_v							dir_vp_upleft(t_b *b);
+t_v							dir_vp_pixel(t_b *b, t_px px);
 t_v							ray2vect(t_ray ray);
 double						solve_equation(double min, double a, double b, double c);
 t_px						pos2px(t_b *b, t_v v);
@@ -374,6 +376,7 @@ double						vect_norme(t_v v);
 double						vect_norme2(t_v v);
 void						vect_print(t_v v);
 void						vect_normalize(t_v *v);
+t_v							reflect(t_v v, t_v n);
 t_v							vect_rotate(t_v v, double angle, t_v axe);
 t_v							vect_init(double x, double y, double z);
 
@@ -448,8 +451,8 @@ t_lux						*search_lux(t_b *b, int id);
 */
 
 t_col						calc_amb(t_b *b);
-void						calc_dif(t_lux *lux, t_inter inter);
-void						calc_spe(t_lux *lux, t_inter inter, t_v to_eye);
+t_col						calc_dif(t_lux *lux, t_inter inter);
+t_col						calc_spe(t_lux *lux, t_inter inter, t_v to_eye);
 void						calc_atn(t_lux *lux, double dist);
 
 /*
@@ -505,7 +508,6 @@ void						to_fdf(t_b *b, char *name);
 ** Parsing							| parsing.c
 */
 
-void						help_parsing();
 void						parse_main(t_b *b, char *av);
 void						parse_zob(t_b *b, char *av);
 
@@ -521,10 +523,8 @@ double						parse_double(char *s);
 ** help functions					| help.c
 */
 
-void						man_help();
-void						help_parsing();
-void						help_obj();
-void						usage();
+int							help_parsing(void);
+int							main_help(int ac, char **av);
 
 /*
 **	Errors								| error.c

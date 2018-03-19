@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 18:56:35 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 15:11:26 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/19 17:32:46 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@
 ** To check the diferents help
 */
 
-void	man_help(void)
+static int		man_help(void)
 {
 	ft_putendlcolor("./RTv1 usage		//How to use RTv1", YELLOW);
 	ft_putendlcolor("./RTv1 help-input	//scene file example", YELLOW);
 	ft_putendlcolor("./RTv1 help-obj    //.obj file example", YELLOW);
-	exit(1);
+	return (1);
 }
 
 /*
 ** Help for file format
 */
 
-void	help_parsing(void)
+int				help_parsing(void)
 {
 	ft_putendl("Lumière ambiante :       densité");
 	ft_putendl("EX : amb             0.4/0.4/0.4\n");
@@ -53,14 +53,14 @@ void	help_parsing(void)
 	ft_putendl("cone     0.0/0.0/5.0      1.0/1.0/1.0     1.0/0.0/0.0     1.0");
 	ft_putendl("lux      0.0/0.0/5.0      0.0/0.2/0.2     0.0/0.5/0.5");
 	ft_putendl("lux      2.0/3.0/5.0      0.7/0.7/0.7     0.7/0.7/0.7");
-	exit(1);
+	return (1);
 }
 
 /*
 ** Help .obj format
 */
 
-void	help_obj(void)
+static int		help_obj(void)
 {
 	ft_putendl("File exemple : \n");
 	ft_putendl("# Blender3D v249 OBJ                //Comment");
@@ -83,10 +83,10 @@ void	help_obj(void)
 	ft_putendl("f 3/1/1 1/2/1 4/3/1                 //Vertex of a face");
 	ft_putendl("f 2/1/1 4/3/1 1/4/1");
 	ft_putendl("f 3/4/2 3/2/2 3/4/2");
-	exit(1);
+	return (1);
 }
 
-void	usage(void)
+static int		usage(void)
 {
 	ft_putendlcolor("./RTv1", GREEN);
 	ft_putendlcolor("     OR", GREEN);
@@ -95,5 +95,26 @@ void	usage(void)
 	ft_putendlcolor("./RTv1 file.obj         //Execute ", GREEN);
 	ft_putendlcolor("     OR", GREEN);
 	ft_putendlcolor("./RTv1 help             //For more infos", GREEN);
-	exit(1);
+	return (1);
+}
+
+int				main_help(int ac, char **av)
+{
+	char		*txt;
+
+	if (ac > 2 || !av)
+		return (man_help());
+	else if (ac == 2)
+	{
+		txt = av[1];
+		if (!ft_strcmp(txt, "help"))
+			return (man_help());
+		else if (!ft_strcmp(txt, "help parsing"))
+			return (help_parsing());
+		else if (!ft_strcmp(txt, "usage"))
+			return (usage());
+		else if (!ft_strcmp(txt, "help obj"))
+			return (help_obj());
+	}
+	return (0);
 }

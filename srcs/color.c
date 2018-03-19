@@ -6,29 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 16:58:03 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 15:15:48 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/19 19:20:49 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RTv1.h"
-
-unsigned int	spectrum_color(int value, int min, int max)
-{
-	int		c;
-
-	c = (value - min) * 0xffffff / (max - min);
-	if (c < 0xFF)
-		return (0xFF00FE - c);
-	if (c < 0x1FE)
-		return (0xFF0100 + ((c - 0xFF) << 8));
-	if (c < 0x2FD)
-		return (0xFEFF00 - ((c - 0x1FE) << 16));
-	if (c < 0x3FC)
-		return (0x00FF01 + (c - 0x2FD));
-	if (c < 0x4FB)
-		return (0x00FEFF - ((c - 0x3FC) << 8));
-	return (0x0100FF + ((c - 0x4FB) << 16));
-}
 
 /*
 ** Return the color
@@ -36,9 +18,9 @@ unsigned int	spectrum_color(int value, int min, int max)
 
 t_col			get_color(t_b *b, t_ray ray)
 {
-	t_col		col;
-	t_lux		*lux;
-	t_ray		to_light;
+	t_col			col;
+	t_lux			*lux;
+	t_ray			to_light;
 
 	if (ray.t >= b->max - MARGIN_FLOAT)
 		return (init_col(0.0, 0.0, 0.0));
@@ -49,15 +31,14 @@ t_col			get_color(t_b *b, t_ray ray)
 	while (lux)
 	{
 		to_light.dir = vect_sub(lux->ori, to_light.ori);
-		if (vect_dot(to_light.dir, b->inter.n) > 0. && inter_obj_lux(b, &to_light) < 0)
+		if (vect_dot(to_light.dir, b->inter.n) > 0. &&
+												inter_obj_lux(b, &to_light) < 0)
 		{
 			lux->light = to_light.dir;
 			calc_atn(lux, vect_norme(lux->light));
 			vect_normalize(&lux->light);
-			calc_dif(lux, b->inter);
-			col = color_add(col, lux->lum_dif);
-			calc_spe(lux, b->inter, vect_multnb(&ray.dir, -1));
-			col = color_add(col, lux->lum_spe);
+			col = color_add(col, calc_dif(lux, b->inter));
+			col = color_add(col, calc_spe(lux, b->inter, ray.dir));
 		}
 		lux = lux->next;
 	}
@@ -105,7 +86,7 @@ void			color_max(t_col *col, double *colmax)
 ** Gamma correction = coeff * (col ^ gamma)
 */
 
-t_col	gamma_corr(t_col col, double coeff, double gamma)
+t_col			gamma_corr(t_col col, double coeff, double gamma)
 {
 	return (color_multnb(color_pow(col, gamma), coeff));
 }

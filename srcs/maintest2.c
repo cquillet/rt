@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 20:00:54 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/08 18:21:20 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/19 19:19:36 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Main function for raytracing
 */
 
-void	rt(t_b *b)
+void		rt(t_b *b)
 {
 	t_px		px;
 	t_ray		ray;
@@ -31,7 +31,7 @@ void	rt(t_b *b)
 		px.y = 0;
 		while (px.y < b->winy)
 		{
-			ray = init_ray(b->cam.pos, vect_sub(draw_pixelvp(b, px), b->cam.pos), 0.);
+			ray = init_ray(b->cam.pos, dir_vp_pixel(b, px), 0.);
 			ray.t = b->max;
 			inter_obj(b, &ray);
 			col = get_color(b, ray);
@@ -137,20 +137,12 @@ void		draw_lux(t_b *b)
 	}
 }
 
-int main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	t_b			b;
 
-	if (ac > 2)
+	if (main_help(ac, av))
 		return (0);
-	if (ac == 2 && !ft_strcmp(av[1], "help"))
-		man_help();
-	else if (ac == 2 && !ft_strcmp(av[1], "help-input"))
-		help_parsing();
-	else if (ac == 2 && !ft_strcmp(av[1], "usage"))
-		usage();
-	else if (ac == 2 && !ft_strcmp(av[1], "help-obj"))
-		help_obj();
 	else if (ac == 2)
 	{
 		init_b(&b);
@@ -169,23 +161,3 @@ int main(int ac, char **av)
 	SDL_Quit();
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 14:55:30 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/08 17:32:56 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/19 19:26:45 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,28 @@
 void	event_obj(t_b *b, int ev)
 {
 	t_px	px;
+	t_v		pos;
+	t_v		axis;
 
 	SDL_GetMouseState(&px.x, &px.y);
+	pos = init_vect(b->cam.pos.x, b->cam.pos.y, b->cam.pos.z + 7.0);
+	axis = init_vect(0.0, 1.0, 0.0);
 	if (ev == SDLK_i || ev == SDLK_j || ev == SDLK_k || ev == SDLK_l
-	|| ev == SDLK_u || ev == SDLK_o)
+		|| ev == SDLK_u || ev == SDLK_o)
 		ev_move_obj(b, ev);
 	else if (ev == SDLK_DELETE)
 		delete_obj(b, b->id);
 	else if (ev == SDLK_KP_0)
-		add_lux(b, init_lux(init_vect(b->cam.pos.x, b->cam.pos.y, b->cam.pos.z + 5),
-			 init_col(0.7, 0.7, 0.7), init_col(0.3, 0.3, 0.3)));
+		add_lux(b, init_lux(pos, init_col(0.7, 0.7, 0.7),
+													init_col(0.3, 0.3, 0.3)));
 	else if (ev == SDLK_KP_1)
-		add_obj(b, init_sph(init_vect(b->cam.pos.x, b->cam.pos.y, b->cam.pos.z + 100.0),
-			 init_col(1.0, 1.0, 1.0), 1));
+		add_obj(b, init_sph(pos, init_col(COL_WHITE), 1.0));
 	else if (ev == SDLK_KP_2)
-		add_obj(b, init_plane(b->cam.pos.x, b->cam.pos.y, b->cam.pos.z + 5.0, 5.0,
-			 init_col(1.0, 1.0, 1.0)));
+		add_obj(b, init_plane(pos, 5.0, init_col(COL_WHITE)));
 	else if (ev == SDLK_KP_3)
-		add_obj(b, init_cyl(init_vect(b->cam.pos.x, b->cam.pos.y, b->cam.pos.z + 5),
-			 init_col(1.0, 1.0, 1.0), init_vect(1.0, 1.0, 1.0), 1));
+		add_obj(b, init_cyl(pos, init_col(COL_WHITE), axis, 2.));
 	else if (ev == SDLK_KP_4)
-		add_obj(b, init_cone(init_vect(b->cam.pos.x, b->cam.pos.y, b->cam.pos.z + 5),
-			 init_col(1.0, 1.0, 1.0), init_vect(0.0, 1.0, 0.0), 1));
+		add_obj(b, init_cone(pos, init_col(COL_WHITE), axis, 20.));
 }
 
 /*
@@ -58,7 +58,6 @@ void	ev_move_obj(t_b *b, int ev)
 {
 	t_obj	*obj;
 
-			//ft_printf("b id = %d\n", b->id);
 	if (!(obj = search_obj(b, b->id)))
 		return (ev_move_lum(b, ev));
 	if (ev == SDLK_i)
@@ -84,7 +83,6 @@ void	ev_move_lum(t_b *b, int ev)
 {
 	t_lux	*lux;
 
-			//ft_printf("b id = %d\n", b->id);
 	if (!(lux = search_lux(b, b->id)))
 		return ;
 	if (ev == SDLK_i)
@@ -107,6 +105,5 @@ void	ev_mouse(t_b *b)
 
 	SDL_GetMouseState(&px.x, &px.y);
 	b->id = b->tab_px[px.y][px.x].id;
-	//ft_printf("id = %d\n", b->tab_px[px.y][px.x].id);
+	printf("id = %d\n", b->tab_px[px.y][px.x].id);
 }
-

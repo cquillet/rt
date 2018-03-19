@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 16:03:34 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 17:38:58 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/19 19:41:14 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,20 @@ void	parse_zob(t_b *b, char *av)
 
 	tab = ft_strsplit(av, ' ');
 	if (!ft_strcmp(tab[0], "plane"))
-		add_obj(b, init_plane(parse_double(tab[1]), parse_double(tab[2]),
-		 parse_double(tab[3]), parse_double(tab[4]), parse_col(tab[5])));
+		add_obj(b, init_plane(init_vect(parse_double(tab[1]),
+								parse_double(tab[2]), parse_double(tab[3])),
+									parse_double(tab[4]), parse_col(tab[5])));
 	else if (!ft_strcmp(tab[0], "sph"))
 		add_obj(b, init_sph(parse_vect(tab[1]), parse_col(tab[2]), 1.0));
 	else if (!ft_strcmp(tab[0], "cyl"))
 		add_obj(b, init_cyl(parse_vect(tab[1]), parse_col(tab[2]),
-		 parse_vect(tab[3]), parse_double(tab[4])));
+									parse_vect(tab[3]), parse_double(tab[4])));
 	else if (!ft_strcmp(tab[0], "cone"))
 		add_obj(b, init_cone(parse_vect(tab[1]), parse_col(tab[2]),
-		 parse_vect(tab[3]), parse_double(tab[4])));
+									parse_vect(tab[3]), parse_double(tab[4])));
 	else if (!ft_strcmp(tab[0], "lux"))
 		add_lux(b, init_lux(parse_vect(tab[1]), parse_col(tab[2]),
-		 parse_col(tab[3])));
+															parse_col(tab[3])));
 	else if (!ft_strcmp(tab[0], "amb"))
 		b->amb = parse_col(tab[1]);
 	else
