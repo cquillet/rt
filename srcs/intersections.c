@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 17:49:31 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 15:26:08 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/03/20 20:24:53 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int		inter_all(t_b *b, t_ray *ray, double min)
 			t = calc_cone(ray, *l, min);
 		if (t > min && t < ray->t)
 		{
-			ray->t = t;
+			ray->t = t - MARGIN_FLOAT;
 			id = l->id;
 		}
 		l = l->next;

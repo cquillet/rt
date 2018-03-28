@@ -6,9 +6,9 @@
 #    By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/27 17:07:31 by vmercadi          #+#    #+#              #
-#    Updated: 2018/03/06 14:21:40 by vmercadi         ###   ########.fr        #
+#    Updated: 2018/03/20 16:09:58 by cquillet         ###   ########.fr        #
+#    Updated: 2018/02/16 19:48:27 by cquillet         ###   ########.fr        #
 #                                                                              #
-# **************************************************************************** #
 # **************************************************************************** #
 
 NAME = RTv1
@@ -20,6 +20,7 @@ SRC = srcs/maintest2.c srcs/error.c srcs/event.c srcs/vect_calc1.c \
 	srcs/action.c srcs/event_obj.c srcs/parsing.c srcs/help.c \
 	srcs/color_calc.c srcs/color_utils.c srcs/event_move.c srcs/init_obj.c \
 	srcs/init_data.c srcs/init_sheit.c srcs/parse_utils.c srcs/lux_calc.c \
+	srcs/draw.c
 
 INCLUDES = -I includes -I libft -I lib/SDL2/Headers
 CFLAGS = -Wall -Wextra -Werror $(INCLUDES)

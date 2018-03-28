@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 16:58:03 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/19 19:20:49 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/23 17:41:13 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,24 @@
 ** Return the color
 */
 
-t_col			get_color(t_b *b, t_ray ray)
+t_col			cast_ray(t_b *b, t_ray ray)
 {
 	t_col			col;
 	t_lux			*lux;
-	t_ray			to_light;
+	t_ray			to_l;
 
-	if (ray.t >= b->max - MARGIN_FLOAT)
+	if (ray.t >= b->max)
 		return (init_col(0.0, 0.0, 0.0));
 	lux = b->lux;
 	col = calc_amb(b);
-	to_light.ori = ray2vect(ray);
+	to_l.ori = ray2vect(ray);
 	vect_normalize(&ray.dir);
 	while (lux)
 	{
-		to_light.dir = vect_sub(lux->ori, to_light.ori);
-		if (vect_dot(to_light.dir, b->inter.n) > 0. &&
-												inter_obj_lux(b, &to_light) < 0)
+		to_l.dir = vect_sub(lux->ori, to_l.ori);
+		if (vect_dot(to_l.dir, b->inter.n) > 0. && inter_obj_lux(b, &to_l) < 0)
 		{
-			lux->light = to_light.dir;
+			lux->light = to_l.dir;
 			calc_atn(lux, vect_norme(lux->light));
 			vect_normalize(&lux->light);
 			col = color_add(col, calc_dif(lux, b->inter));

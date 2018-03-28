@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:12:09 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/19 19:16:03 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/20 20:28:41 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	init_b(t_b *b)
 	b->lux = NULL;
 	b->obj = NULL;
 	b->amb = init_col(0.0, 0.0, 0.0);
-	b->max = 66666666;
+	b->max = 1000;
 	b->aliasing = 4;
 	b->colmax = 0.0;
 	b->gamma = 1.0;

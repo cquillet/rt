@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 18:44:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/19 19:39:32 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/03/20 16:53:13 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,7 @@ typedef struct				s_b
 ** main functions						| maintest2.c
 */
 
-void						rt(t_b *b);
+void						render(t_b *b);
 void						draw(t_b *b);
 void						draw_lux(t_b *b);
 
@@ -392,7 +392,7 @@ t_vl						*search_vl(t_b *b, int id);
 */
 
 unsigned int				spectrum_color(int value, int min, int max);
-t_col						get_color(t_b *b, t_ray ray);
+t_col						cast_ray(t_b *b, t_ray ray);
 void						color_sat(t_col *col);
 void						color_max(t_col *col, double *colmax);
 t_col						gamma_corr(t_col col, double coeff, double gamma);
