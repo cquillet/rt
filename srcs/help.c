@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 18:56:35 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/19 17:32:46 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/04 16:46:43 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** To check the diferents help
@@ -18,9 +18,9 @@
 
 static int		man_help(void)
 {
-	ft_putendlcolor("./RTv1 usage		//How to use RTv1", YELLOW);
-	ft_putendlcolor("./RTv1 help-input	//scene file example", YELLOW);
-	ft_putendlcolor("./RTv1 help-obj    //.obj file example", YELLOW);
+	ft_putendlcolor("./RTv1 usage         //How to use RTv1", YELLOW);
+	ft_putendlcolor("./RTv1 help-parsing  //scene file example", YELLOW);
+	ft_putendlcolor("./RTv1 help-obj      //.obj file example", YELLOW);
 	return (1);
 }
 
@@ -30,7 +30,10 @@ static int		man_help(void)
 
 int				help_parsing(void)
 {
-	ft_putendl("Lumière ambiante :       densité");
+	ft_putendl("##NO TABULATIONS - ONLY SPACES ARE ALLOWED");
+	ft_putendl("Caméra :       position");
+	ft_putendl("EX : cam          0.0/0.0/10.0\n");
+	ft_putendl("Lumière ambiante :       density");
 	ft_putendl("EX : amb             0.4/0.4/0.4\n");
 	ft_putendl("Plane :     a   b   c   d      color");
 	ft_putendl("EX: plane  0.0 1.0 0.0 3.0  1.0/0.0/1.0\n");
@@ -45,10 +48,8 @@ int				help_parsing(void)
 	ft_putendl("----------------------------------------------------------\n");
 	ft_putendl("File exemple :\n");
 	ft_putendl("amb      0.4/0.4/0.4");
-	ft_putendl("plane    0.0/1.0/0.0/3.0  1.0/0.0/1.0");
+	ft_putendl("plane    0.0 1.0 0.0 3.0  1.0/0.0/1.0");
 	ft_putendl("sph      3.0/0.0/5.0      1.0/0.0/1.0     0.2");
-	ft_putendl("sph      0.0/2.0/5.0      1.0/0.0/1.0     1.0");
-	ft_putendl("sph      5.0/2.0/5.0      1.0/0.0/1.0     3.0");
 	ft_putendl("cyl      2.0/2.0/3.0      0.0/0.0/1.0     1.0/0.0/0.0     1.0");
 	ft_putendl("cone     0.0/0.0/5.0      1.0/1.0/1.0     1.0/0.0/0.0     1.0");
 	ft_putendl("lux      0.0/0.0/5.0      0.0/0.2/0.2     0.0/0.5/0.5");
@@ -109,11 +110,11 @@ int				main_help(int ac, char **av)
 		txt = av[1];
 		if (!ft_strcmp(txt, "help"))
 			return (man_help());
-		else if (!ft_strcmp(txt, "help parsing"))
+		else if (!ft_strcmp(txt, "help-parsing"))
 			return (help_parsing());
 		else if (!ft_strcmp(txt, "usage"))
 			return (usage());
-		else if (!ft_strcmp(txt, "help obj"))
+		else if (!ft_strcmp(txt, "help-obj"))
 			return (help_obj());
 	}
 	return (0);

@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 14:55:30 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/19 19:26:45 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:23:40 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Event for objects
@@ -105,5 +105,4 @@ void	ev_mouse(t_b *b)
 
 	SDL_GetMouseState(&px.x, &px.y);
 	b->id = b->tab_px[px.y][px.x].id;
-	printf("id = %d\n", b->tab_px[px.y][px.x].id);
 }

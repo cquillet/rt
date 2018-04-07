@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:11:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 11:12:18 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:10:35 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Add 2 colors and return the result

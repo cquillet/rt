@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 17:49:31 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/20 20:24:53 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/07 19:06:22 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Check intersection of all the objects of the world and the universe
@@ -56,7 +56,7 @@ double	inter_obj(t_b *b, t_ray *ray)
 int		inter_obj_lux(t_b *b, t_ray *to_light)
 {
 	to_light->t = 1.0;
-	return (inter_all(b, to_light, MARGIN_FLOAT));
+	return (inter_all(b, to_light, 2 * MARGIN_FLOAT));
 }
 
 /*
@@ -67,7 +67,7 @@ int		inter_all(t_b *b, t_ray *ray, double min)
 {
 	t_obj			*l;
 	double			t;
-	unsigned int	id;
+	int	id;
 
 	l = b->obj;
 	id = -1;
@@ -82,10 +82,13 @@ int		inter_all(t_b *b, t_ray *ray, double min)
 			t = calc_cyl(ray, *l, min);
 		else if (l->form == 4)
 			t = calc_cone(ray, *l, min);
-		if (t > min && t < ray->t)
+		if (t > min && t < b->max && t < ray->t + MARGIN_FLOAT)
 		{
-			ray->t = t - MARGIN_FLOAT;
-			id = l->id;
+			if (t < ray->t - MARGIN_FLOAT)
+				id = l->id;
+			else if (l->id > id)
+				id = l->id;
+			ray->t = t;
 		}
 		l = l->next;
 	}

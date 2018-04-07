@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:24:01 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 15:12:54 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:23:39 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 int		event_move(t_b *b, int ev)
 {

@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:27:30 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/19 19:34:41 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:11:03 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Init for the plane
@@ -75,8 +75,8 @@ t_obj		init_sph(t_v v, t_col col, double r)
 	sph.angle = 0;
 	sph.h = init_vect(0.0, 0.0, 0.0);
 	sph.tex = init_tex();
-	sph.tex.ks = init_col(0.7, 0.7, 0.7);
-	sph.tex.kd = init_col(0.6, 0.6, 0.6);
+	sph.tex.ks = init_col(1.0, 1.0, 1.0);
+	sph.tex.kd = init_col(1.0, 1.0, 1.0);
 	sph.tex.col = (!col2int(col)) ? init_col(1.0, 1.0, 1.0) : col;
 	sph.next = NULL;
 	return (sph);
@@ -86,7 +86,7 @@ t_obj		init_sph(t_v v, t_col col, double r)
 ** Init for cone
 */
 
-t_obj		init_cone(t_v v, t_col col, t_v h, double r)
+t_obj		init_cone(t_v v, t_col col, t_v h, double angle)
 {
 	t_obj	cone;
 
@@ -95,12 +95,9 @@ t_obj		init_cone(t_v v, t_col col, t_v h, double r)
 	cone.b = 0;
 	cone.c = 0;
 	cone.d = 0;
-	if (r < 0.01)
-		r = 0.1;
-	else
-		cone.r = r;
+	cone.r = 0;
 	cone.ori = v;
-	cone.angle = DEG2RAD(20);
+	cone.angle = DEG2RAD(angle);
 	cone.h = h;
 	cone.tex = init_tex();
 	cone.tex.ks = init_col(1.0, 1.0, 1.0);

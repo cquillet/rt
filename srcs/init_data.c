@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:32:08 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/19 19:17:54 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/06 19:48:20 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Vect init

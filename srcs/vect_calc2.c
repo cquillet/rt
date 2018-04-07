@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:37:05 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 17:40:03 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:10:49 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Add value to a vector

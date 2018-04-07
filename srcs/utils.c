@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 19:23:35 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/19 18:58:32 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/07 18:40:14 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Return the pos of the pixel in the viewplane
@@ -56,17 +56,14 @@ double	solve_equation(double min, double a, double b, double c)
 	double	ret;
 	double	delta;
 
-	if (a == 0)
-		return (-c / b);
-	if (((delta = b * b - 4 * a * c) < 0))
-		return (-1.);
-	if (delta == 0)
+	if (-MARGIN_FLOAT < a && a < MARGIN_FLOAT)
+		return (-MARGIN_FLOAT < b && b < MARGIN_FLOAT ? 0. : -c / b);
+	if (((delta = b * b - 4. * a * c) <= -MARGIN_FLOAT))
+		return (min);
+	else if (delta < MARGIN_FLOAT)
 		return (-b / 2 / a);
 	ret = (-b - sqrt(delta)) / 2 / a;
-	if (ret > min)
-		return (ret);
-	else
-		return ((-b + sqrt(delta)) / 2 / a);
+	return (ret > min ? ret : ((-b + sqrt(delta)) / 2 / a));
 }
 
 /*

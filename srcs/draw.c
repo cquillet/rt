@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 05:00:18 by cquillet          #+#    #+#             */
-/*   Updated: 2018/03/20 16:29:17 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/04 17:20:46 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 static void	draw_aliasing(t_b *b, int x, int y)
 {
@@ -20,21 +20,22 @@ static void	draw_aliasing(t_b *b, int x, int y)
 	t_px			px;
 
 	i = -1;
-	while (++i < b->aliasing)
+	while (++i < b->aliasing && x + i < b->winx)
 	{
 		j = -1;
-		while (++j < b->aliasing)
+		while (++j < b->aliasing && y + j < b->winy)
 		{
-			if (y + j < b->winy && x + i < b->winx)
+			if (b->draw_lights || (!i && !j))
 			{
 				px = b->tab_px[y + j][x + i];
-				c = col2int(gamma_corr(color_multnb(px.col, 1.0 / b->colmax),
-																1.0, b->gamma));
-				SDL_LockSurface(b->img);
-				*((unsigned int *)b->img->pixels +
-										b->winx * (y + j) + x + i) = c;
-				SDL_UnlockSurface(b->img);
+				color_sat(&px.col, b->saturation);
+				c = col2int(gamma_corr(color_multnb(px.col, 1.0 /
+					b->saturation),1.0, b->gamma));
 			}
+			SDL_LockSurface(b->img);
+			*((unsigned int *)b->img->pixels +
+					b->winx * (y + j) + x + i) = c;
+			SDL_UnlockSurface(b->img);
 		}
 	}
 }
@@ -44,10 +45,12 @@ void		draw(t_b *b)
 	int			x;
 	int			y;
 
+	if (b->saturation > b->colmax - MARGIN_FLOAT)
+		b->saturation = b->colmax < 1.0 ? 1.0 : floor(b->colmax);
 	x = 0;
 	while (x < b->winx)
 	{
-		y = 0;
+		y = b->y;
 		while (y < b->winy)
 		{
 			draw_aliasing(b, x, y);
@@ -73,10 +76,8 @@ static void	draw_lux_circle(t_b *b, t_px center, int r)
 			px.x = center.x + i;
 			px.y = center.y + j;
 			if (px.x >= 0 && px.y >= 0 && px.y < b->winy && px.x < b->winx &&
-													(i * i) + (j * j) < r * r)
-			{
+					(i * i) + (j * j) < r * r)
 				b->tab_px[px.y][px.x] = px;
-			}
 		}
 	}
 }
@@ -89,7 +90,7 @@ void		draw_lux(t_b *b)
 	t_v			v;
 
 	lux = b->lux;
-	while (lux)
+	while (b->draw_lights && lux)
 	{
 		if (vect_dot((v = vect_sub(lux->ori, b->cam.pos)), b->cam.dir) > 0)
 		{

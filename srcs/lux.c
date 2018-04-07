@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 18:58:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/19 18:05:42 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:11:09 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 **	Add a lux to the list

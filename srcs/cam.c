@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/26 20:43:18 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 11:03:37 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:10:37 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Refresh the dir vector

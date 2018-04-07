@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/30 22:14:22 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/08 17:42:15 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:10:51 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** To create a FDF map of the actual scene of RT

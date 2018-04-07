@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 13:17:12 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 15:08:14 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/04 17:53:29 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Catch and throw the events
@@ -28,17 +28,17 @@ int		event(t_b *b)
 			return (0);
 		else if (ev == SDLK_3 || ev == SDLK_4)
 			ev_qualitat(b, ev);
-		else if (ev == SDLK_COMMA || ev == SDLK_PERIOD)
-			ev_gamma(b, ev);
+		else if (ev == SDLK_COMMA || ev == SDLK_PERIOD || ev == SDLK_n ||
+																ev == SDLK_m)
+			ev_color(b, ev);
 		else if (ev == SDLK_r)
 			ev_reset(b);
 		else if (event.type == SDL_MOUSEBUTTONDOWN
 			&& event.button.button == SDL_BUTTON_LEFT)
 			ev_mouse(b);
-		else if (ev == SDLK_SPACE)
-			b->act->action *= -1;
-		else
-			event_move(b, ev);
+		event_move(b, ev);
+		if (event.key.state == SDL_RELEASED)
+			ev_screen(b, event);
 	}
 	return (1);
 }
@@ -68,13 +68,17 @@ void	ev_qualitat(t_b *b, int ev)
 }
 
 /*
-** Event to change the gamma
+** Event to change the color : gamma, saturation
 */
 
-void	ev_gamma(t_b *b, int ev)
+void	ev_color(t_b *b, int ev)
 {
 	if (ev == SDLK_COMMA && b->gamma > 0.1)
 		b->gamma -= 0.1;
 	else if (ev == SDLK_PERIOD && b->gamma < 2.0)
 		b->gamma += 0.1;
+	else if (ev == SDLK_n && b->saturation > 1.5)
+		b->saturation -= 0.5;
+	else if (ev == SDLK_m && b->saturation + 0.5 < b->colmax + MARGIN_FLOAT)
+		b->saturation += 0.5;
 }

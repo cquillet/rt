@@ -6,11 +6,36 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:38:45 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/19 19:26:02 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/06 19:34:55 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
+
+t_b		copy_base(t_b *b, t_b *bl)
+{
+	bl->max = b->max;
+	bl->colmax = b->colmax;
+	bl->gamma = b->gamma;
+	bl->id = b->id;
+	bl->p = b->p;
+	bl->winx = b->winx;
+	bl->winy = b->winy;
+	bl->maxid = b->maxid;
+	bl->aliasing = b->aliasing;
+	bl->act = b->act;
+	bl->tab_px = b->tab_px;
+	bl->vl = b->vl;
+	bl->cam = b->cam;
+	bl->vp = b->vp;
+	bl->obj = b->obj;
+	bl->lux = b->lux;
+	bl->amb = b->amb;
+	bl->inter = b->inter;
+	bl->win = b->win;
+	bl->img = b->img;
+	return (*bl);
+}
 
 /*
 ** VERY important function to INITIALIZE the inter min at 666666666
@@ -18,8 +43,11 @@
 
 void	init_inter(t_inter *inter)
 {
-	inter = (t_inter *)malloc(sizeof(t_inter));
-	inter->min = 666666666;
+	if (!(inter = (t_inter *)malloc(sizeof(t_inter))))
+	{
+		inter->min = 666666666;
+		inter->dist = 0.;
+	}
 }
 
 /*
@@ -44,14 +72,14 @@ t_tex	init_tex(void)
 {
 	t_tex	tex;
 
-	tex.rug = 1.;
-	tex.plasti = 0.;
-	tex.refra = 0.;
-	tex.trans = 0.;
+	tex.rug = 1.0;
+	tex.plasti = 0.0;
+	tex.refra = 0.0;
+	tex.trans = 0.0;
 	tex.hidden = 0;
-	tex.reflect = 0.;
+	tex.reflect = 0.0;
 	tex.col = init_col(1.0, 1.0, 1.0);
-	tex.ka = init_col(0.0, 0.0, 0.0);
+	tex.ka = init_col(0.5, 0.5, 0.5);
 	tex.kd = init_col(1.0, 1.0, 1.0);
 	tex.ks = init_col(1.0, 1.0, 1.0);
 	return (tex);

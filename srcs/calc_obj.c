@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 20:05:58 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 02:36:54 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/07 18:40:52 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Calculate the intersection between a ray and a spherical sphere
@@ -34,17 +34,14 @@ double		calc_sphere(t_ray *ray, t_obj sph, double min)
 double		calc_plane(t_ray *ray, t_obj plane, double min)
 {
 	double	prod;
-	double	r;
+//	double	r;
 	t_v		n;
 
 	n = init_vect(plane.a, plane.b, plane.c);
 	prod = vect_dot(n, ray->dir);
-	if (!prod)
-		return (-1.);
-	r = -(vect_dot(n, ray->ori) + plane.d) / prod;
-	if (r < min)
-		return (-1.);
-	return (r);
+	if (-MARGIN_FLOAT < prod && prod < MARGIN_FLOAT)
+		return (min);
+	return (-(vect_dot(n, ray->ori) + plane.d) / prod);
 }
 
 /*

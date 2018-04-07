@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:05:15 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 19:21:40 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:10:33 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Convert a t_col to an unsigned int color

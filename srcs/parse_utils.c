@@ -6,11 +6,24 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:49:19 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/08 17:35:28 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:10:57 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
+
+char		**decoupe(char *s)
+{
+	char	**tab;
+
+	tab = ft_strsplit(s, '/');
+	if (tab_len(tab) != 3)
+	{
+		parse_err(2, s);
+		free_tab((void **)tab);
+	}
+	return (tab);
+}
 
 /*
 ** Check and convert a string to a vector
@@ -23,7 +36,7 @@ t_v			parse_vect(char *s)
 	int		p;
 	char	**tab;
 
-	tab = ft_strsplit(s, '/');
+	tab = decoupe(s);
 	i[0] = -1;
 	while (tab[++i[0]])
 	{
@@ -31,11 +44,9 @@ t_v			parse_vect(char *s)
 		p = 0;
 		while (tab[i[0]][++i[1]])
 		{
-			if (ft_isdigit(tab[i[0]][i[1]]) || (tab[i[0]][i[1]] == '.' && !p))
-			{
-				if (tab[i[0]][i[1]] == '.')
-					p = 1;
-			}
+			if (ft_isdigit(tab[i[0]][i[1]]) || (tab[i[0]][i[1]] == '.' && !p)
+											|| tab[i[0]][i[1]] == '-')
+				p = (tab[i[0]][i[1]] == '.') ? 1 : 0;
 			else
 				parse_err(2, s);
 		}
@@ -56,7 +67,7 @@ t_col		parse_col(char *s)
 	int		p;
 	char	**tab;
 
-	tab = ft_strsplit(s, '/');
+	tab = decoupe(s);
 	i[0] = -1;
 	while (tab[++i[0]])
 	{
@@ -91,7 +102,7 @@ double		parse_double(char *s)
 	i = -1;
 	while (s[++i])
 	{
-		if (ft_isdigit(s[i]) || (s[i] == '.' && p == 0))
+		if (ft_isdigit(s[i]) || (s[i] == '.' && p == 0) || s[i] == '-')
 		{
 			if (s[i] == '.')
 				p = 1;

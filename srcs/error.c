@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 16:56:39 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/06 15:07:23 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:23:42 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 void	error_quit(int e)
 {
@@ -34,6 +34,8 @@ void	parse_err(int e, char *s)
 	else if (e == 2)
 		ft_putstrcolor("Some vector is not well formated : ", RED);
 	else if (e == 3)
+		ft_putstrcolor("The file given is not a scene : ", RED);
+	else if (e == 0 && ft_strchr(s, '\t'))
 		ft_putstrcolor("The file given is not a scene : ", RED);
 	ft_putendl(s);
 	exit(1);

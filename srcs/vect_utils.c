@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 19:00:15 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/19 19:01:01 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/07 19:55:22 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Sort le carré de la norme du vecteur
@@ -39,9 +39,18 @@ void		vect_normalize(t_v *v)
 	double n;
 
 	n = vect_norme(*v);
-	v->x /= n;
-	v->y /= n;
-	v->z /= n;
+	if (-MARGIN_FLOAT < n && n < MARGIN_FLOAT)
+	{
+		v->x = 0.;
+		v->y = 0.;
+		v->z = 0.;
+	}
+	else
+	{
+		v->x /= n;
+		v->y /= n;
+		v->z /= n;
+	}
 }
 
 t_v			reflect(t_v v, t_v n)
