@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 18:44:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/07 17:52:08 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/11 19:46:23 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct				s_ray
 	double					t;
 	t_v						ori;
 	t_v						dir;
+	int						id;
 }							t_ray;
 
 /*

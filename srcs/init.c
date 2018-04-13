@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:12:09 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/07 18:08:25 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/11 19:35:16 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	init_b(t_b *b)
 
 	b->p = 1.0;
 	b->win = NULL;
-	b->winx = 640 * 1.5;
-	b->winy = 480 * 1.5;
+	b->winx = 640;
+	b->winy = 480;
 	init_vp(b);
 	init_cam(b);
 	b->vl = NULL;
