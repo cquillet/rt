@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 20:00:54 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/11 19:41:16 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/14 16:57:20 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void		render(void *arg)
 	t_ray		ray;
 
 	b = (t_b *)arg;
-	b->colmax = 0.;
 	px.x = 0;
 	while (px.x < b->winx)
 	{

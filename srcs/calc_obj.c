@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 20:05:58 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/07 18:40:52 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/14 17:46:18 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ double		calc_sphere(t_ray *ray, t_obj sph, double min)
 double		calc_plane(t_ray *ray, t_obj plane, double min)
 {
 	double	prod;
-//	double	r;
 	t_v		n;
 
 	n = init_vect(plane.a, plane.b, plane.c);

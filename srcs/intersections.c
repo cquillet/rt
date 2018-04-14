@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 17:49:31 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/07 19:06:22 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/14 22:12:35 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,19 @@ int		inter_obj_lux(t_b *b, t_ray *to_light)
 ** inter for everything
 */
 
-int		inter_all(t_b *b, t_ray *ray, double min)
+t_list	*inter_all(t_b *b, t_ray *ray, double min)
 {
 	t_obj			*l;
 	double			t;
-	int	id;
+	int				id;
+	t_list			lst;
 
 	l = b->obj;
 	id = -1;
+	lst = NULL;
+	t = b->max;
 	while (l)
 	{
-		t = b->max;
 		if (l->form == 1)
 			t = calc_plane(ray, *l, min);
 		else if (l->form == 2)
@@ -82,12 +84,16 @@ int		inter_all(t_b *b, t_ray *ray, double min)
 			t = calc_cyl(ray, *l, min);
 		else if (l->form == 4)
 			t = calc_cone(ray, *l, min);
-		if (t > min && t < b->max && t < ray->t + MARGIN_FLOAT)
+		if (t > min && t < b->max && t < ray->t + 2 * MARGIN_FLOAT)
 		{
-			if (t < ray->t - MARGIN_FLOAT)
+			if (t < ray->t - 2 * MARGIN_FLOAT)
 				id = l->id;
 			else if (l->id > id)
+			{
+				printf("intersection %d (new) et %d (old)\n", l->id, id);
 				id = l->id;
+	//			id = -1;
+			}
 			ray->t = t;
 		}
 		l = l->next;

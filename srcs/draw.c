@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 05:00:18 by cquillet          #+#    #+#             */
-/*   Updated: 2018/04/04 17:20:46 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/14 17:01:37 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void		draw(t_b *b)
 	int			y;
 
 	if (b->saturation > b->colmax - MARGIN_FLOAT)
-		b->saturation = b->colmax < 1.0 ? 1.0 : floor(b->colmax);
+		b->saturation = ceil(b->colmax);
 	x = 0;
 	while (x < b->winx)
 	{
