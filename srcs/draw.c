@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 05:00:18 by cquillet          #+#    #+#             */
-/*   Updated: 2018/04/17 22:06:02 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/14 17:01:37 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,9 @@ static void	draw_aliasing(t_b *b, int x, int y)
 			if (b->draw_lights || (!i && !j))
 			{
 				px = b->tab_px[y + j][x + i];
-//				printf("draw\nr=%.1f\ng=%.1f\nb=%.1f\n\n", px.col.r, px.col.g, px.col.b);
 				color_sat(&px.col, b->saturation);
-//				printf("draw\nr=%.1f\ng=%.1f\nb=%.1f\n\n", px.col.r, px.col.g, px.col.b);
-				c = col2int(gamma_corr(color_multnb(px.col, 1.0 / b->saturation),1.0, b->gamma));
-//				printf("draw %u\n", c);
+				c = col2int(gamma_corr(color_multnb(px.col, 1.0 /
+					b->saturation),1.0, b->gamma));
 			}
 			SDL_LockSurface(b->img);
 			*((unsigned int *)b->img->pixels +

@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:12:09 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/17 22:02:17 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/14 17:59:40 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,11 @@ void	init_b(t_b *b)
 	b->aliasing = 2;
 	b->colmax = 0.0;
 	b->gamma = 1.0;
-	b->saturation = 1.0;
+	b->saturation = 7.0;
 	b->rec = 0;
 	b->draw_lights = 1;
 	b->depth = 1;
 	b->max_dist = 1000.0;
-	b->inter = init_inter();
 	b->tab_px = (t_px**)malloc(sizeof(t_px*) * b->winy);
 	i = -1;
 	while (++i < b->winy)

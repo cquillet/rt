@@ -6,7 +6,7 @@
 /*   By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 19:03:06 by cquillet          #+#    #+#             */
-/*   Updated: 2018/04/17 22:21:20 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/18 19:05:25 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,16 @@ t_col			cast_ray(t_b *b, t_ray ray, unsigned int depth)
 	b->inter.dist += vect_norme(vect_sub(ray.ori, ray2vect(ray)));
 	if (!depth || ray.t > b->max - MARGIN_FLOAT || b->inter.dist > b->max_dist)
 		return (init_col(0.0, 0.0, 0.0));
-//	printf("cast_ray\n");
-//	printf("cast_ray\nr=%.1f\ng=%.1f\nb=%.1f\n\n", b->inter.col.r, b->inter.col.g, b->inter.col.b);
 	col = calc_amb(b);
-//	b->inter.to_lux.ori = vect_add(ray2vect(ray), vect_multnb(&b->inter.n, 3.));
-	b->inter.to_lux.ori = ray2vect(ray);
+	b->inter.to_lux.ori = vect_add(ray2vect(ray), vect_multnb(&b->inter.n, 2.));
+//	b->inter.to_lux.ori = ray2vect(ray);
 	vect_normalize(&ray.dir);
 	lux = b->lux;
 	while (lux)
 	{
 		b->inter.to_lux.dir = vect_sub(lux->ori, b->inter.to_lux.ori);
 		if (vect_dot(b->inter.to_lux.dir, b->inter.n) > 0. &&
-										!inter_obj_lux(b, &b->inter.to_lux))
+										inter_obj_lux(b, &b->inter.to_lux) < 0)
 		{
 			lux->light = b->inter.to_lux.dir;
 			color_calc(&col, lux, b, ray.dir);
@@ -53,7 +51,6 @@ t_col			cast_ray(t_b *b, t_ray ray, unsigned int depth)
 	if (b->inter.tex.reflect > MARGIN_FLOAT)
 		col = color_add(col, cast_reflect(b, ray, depth));
 	color_max(&col, &b->colmax);
-//	printf("cast_ray\nr=%.1f\ng=%.1f\nb=%.1f\n\n", col.r, col.g, col.b);
 	return (col);
 }
 

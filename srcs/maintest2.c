@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 20:00:54 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/17 22:03:51 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/14 16:57:20 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void		render(void *arg)
 			px.dist = inter_obj(b, &ray);
 			b->inter.dist = 0.;
 			px.col = cast_ray(b, ray, b->depth);
-	//		printf("render\nr=%.1f\ng=%.1f\nb=%.1f\n\n", px.col.r, px.col.g, px.col.b);
 			px.id = b->inter.id;
 			render_aliasing(b, px);
 			px.y += b->aliasing;
@@ -89,7 +88,6 @@ void		start(t_b *b)
 	{
 		render(b);
 		SDL_UpdateWindowSurface(b->win);
-		printf("*****************************************************\n");
 		if (b->rec)
 			ev_screenshot(b);
 	}

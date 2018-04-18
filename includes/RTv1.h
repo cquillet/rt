@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 18:44:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/17 16:15:12 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/18 19:01:44 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <SDL.h>
 # include <math.h>
 # include <limits.h>
-#include <stdio.h>
+
 /*
 ** struct for a basic vector
 */
@@ -187,14 +187,13 @@ typedef	struct				s_obj
 
 typedef struct				s_inter
 {
+	t_ray					to_cam;
 	t_ray					to_lux;
 	t_tex					tex;
 	t_v						n;
 	int						id;
 	double					min;
 	double					dist;
-	t_list					*multiple;
-	t_col					col;
 }							t_inter;
 
 /*
@@ -312,8 +311,7 @@ t_matrice					init_matrice();
 
 void						init_vp(t_b *b);
 t_tex						init_tex();
-//void						init_inter(t_inter *inter);
-t_inter						init_inter(void);
+void						init_inter(t_inter *inter);
 t_act						init_act(t_obj *obj1, int action, int axis);
 t_b							copy_base(t_b *b, t_b *bl);
 
@@ -444,7 +442,7 @@ t_col						color_pow(t_col col, double n);
 
 double						inter_obj(t_b *b, t_ray *ray);
 int							inter_obj_lux(t_b *b, t_ray *ray);
-t_list						*inter_all(t_b *b, t_ray *ray, double min);
+int							inter_all(t_b *b, t_ray *ray, double min);
 
 /*
 ** Calculation for the differents obj	| calc_obj.c
@@ -551,9 +549,5 @@ int							main_help(int ac, char **av);
 void						error();
 void						error_quit(int e);
 void						parse_err(int e, char *s);
-
-//double						(*calc_form[5])(t_ray *ray, t_obj obj, double min) = {NULL, calc_sphere, calc_plane, calc_cone, calc_cyl};
-//typedef double				(*t_calc_form)(t_ray *ray, t_obj obj, double min);
-//t_calc_form					calc_form[5] = {NULL, calc_sphere, calc_plane, calc_cone, calc_cyl};
 
 #endif
