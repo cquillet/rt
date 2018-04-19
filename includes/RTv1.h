@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 18:44:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/18 19:01:44 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/19 18:36:05 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # define MARGIN_FLOAT 0.001
 # define MAX_DEEP 2
 # define DEG2RAD(x) (x * M_PI / 180.0)
+# define LIGHT_RAY 0
+# define SHADOW_RAY 1
 # include "libft.h"
 # include "color.h"
 # include <time.h>
@@ -191,6 +193,7 @@ typedef struct				s_inter
 	t_ray					to_lux;
 	t_tex					tex;
 	t_v						n;
+	t_col					col;
 	int						id;
 	double					min;
 	double					dist;
@@ -243,6 +246,7 @@ typedef struct				s_b
 	int						winy;
 	int						maxid;
 	int						aliasing;
+	int						nb_inter;
 	int						rec;
 	int						draw_lights;
 	int						ac;
@@ -310,8 +314,8 @@ t_matrice					init_matrice();
 */
 
 void						init_vp(t_b *b);
-t_tex						init_tex();
-void						init_inter(t_inter *inter);
+t_tex						init_tex(void);
+t_inter						init_inter(void);
 t_act						init_act(t_obj *obj1, int action, int axis);
 t_b							copy_base(t_b *b, t_b *bl);
 
@@ -442,7 +446,7 @@ t_col						color_pow(t_col col, double n);
 
 double						inter_obj(t_b *b, t_ray *ray);
 int							inter_obj_lux(t_b *b, t_ray *ray);
-int							inter_all(t_b *b, t_ray *ray, double min);
+int							inter_all(t_b *b, t_ray *ray, double min, char flag);
 
 /*
 ** Calculation for the differents obj	| calc_obj.c
