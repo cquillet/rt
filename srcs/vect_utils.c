@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 19:00:15 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/07 19:55:22 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:10:48 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,9 @@ void		vect_normalize(t_v *v)
 	double n;
 
 	n = vect_norme(*v);
-	if (-MARGIN_FLOAT < n && n < MARGIN_FLOAT)
-	{
-		v->x = 0.;
-		v->y = 0.;
-		v->z = 0.;
-	}
-	else
-	{
-		v->x /= n;
-		v->y /= n;
-		v->z /= n;
-	}
+	v->x /= n;
+	v->y /= n;
+	v->z /= n;
 }
 
 t_v			reflect(t_v v, t_v n)

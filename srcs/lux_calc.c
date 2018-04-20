@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 14:20:09 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/07 22:00:32 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:11:09 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ t_col	calc_spe(t_lux *lux, t_inter inter, t_v from_eye)
 	if ((dot = vect_dot(refl, to_eye)) <= 0.0)
 		return (init_col(0.0, 0.0, 0.0));
 	plasti = color_add(
-				color_multnb(inter.tex.col, 1.0 - inter.tex.plasti),
-				init_col(inter.tex.plasti, inter.tex.plasti, inter.tex.plasti));
+				color_multnb(inter.tex.col, 1 - inter.tex.plasti),
+				inter.tex.col_plasti);
 	return (color_mult(lux->spe, color_multnb(
 										color_mult(inter.tex.ks, plasti),
 										pow(dot, inter.tex.rug) * lux->atn)));
@@ -62,6 +62,6 @@ void	calc_atn(t_lux *lux, double dist)
 {
 	lux->atn = lux->amp_cst /
 		(1.0 + lux->amp_lin * dist + lux->amp_quad * dist * dist);
-	if (lux->atn < MARGIN_FLOAT)
+	if (lux->atn < 0.000001)
 		lux->atn = 0.0;
 }

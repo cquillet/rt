@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:38:45 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/19 17:38:09 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:11:02 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,10 @@ t_b		copy_base(t_b *b, t_b *bl)
 ** VERY important function to INITIALIZE the inter min at 666666666
 */
 
-/*void	init_inter(t_inter *inter)
+void	init_inter(t_inter *inter)
 {
-	if (!(inter = (t_inter *)malloc(sizeof(t_inter))))
-	{
-		inter->min = 666666666;
-		inter->dist = 0.;
-	}
-	inter->multiple = NULL;
-	inter->col = init_col(0., 0., 0.);
-	inter->n = init_vect(0., 0., 0.);
-		printf("init_inter %p %p\n", inter, inter->multiple);
-}*/
-
-t_inter		init_inter(void)
-{
-	t_inter		inter;
-
-	inter.min = 6666.;
-	inter.dist = 0.;
-	inter.col = init_col(0., 0., 0.);
-	inter.n = init_vect(0., 0., 0.);
-	return (inter);
+	inter = (t_inter *)malloc(sizeof(t_inter));
+	inter->min = 666666666;
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 20:00:54 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/14 16:57:20 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/04 16:31:10 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void		render(void *arg)
 	t_ray		ray;
 
 	b = (t_b *)arg;
+	b->colmax = 0.;
 	px.x = 0;
 	while (px.x < b->winx)
 	{
@@ -51,10 +52,8 @@ void		render(void *arg)
 		while (px.y < b->winy)
 		{
 			ray = init_ray(b->cam.pos, dir_vp_pixel(b, px), b->max);
-			ray.id = (unsigned int)(px.x * b->winy + px.y);
 			px.dist = inter_obj(b, &ray);
-			b->inter.dist = 0.;
-			px.col = cast_ray(b, ray, b->depth);
+			px.col = cast_ray(b, ray);
 			px.id = b->inter.id;
 			render_aliasing(b, px);
 			px.y += b->aliasing;

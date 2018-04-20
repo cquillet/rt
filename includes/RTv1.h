@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 18:44:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/19 18:36:05 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/04 21:38:05 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 # define MARGIN_FLOAT 0.001
 # define MAX_DEEP 2
 # define DEG2RAD(x) (x * M_PI / 180.0)
-# define LIGHT_RAY 0
-# define SHADOW_RAY 1
 # include "libft.h"
 # include "color.h"
 # include <time.h>
@@ -73,7 +71,7 @@ typedef struct				s_tex
 	t_col					ka;
 	t_col					kd;
 	t_col					ks;
-//	t_col					col_plasti;
+	t_col					col_plasti;
 }							t_tex;
 
 /*
@@ -85,7 +83,6 @@ typedef struct				s_ray
 	double					t;
 	t_v						ori;
 	t_v						dir;
-	int						id;
 }							t_ray;
 
 /*
@@ -193,10 +190,8 @@ typedef struct				s_inter
 	t_ray					to_lux;
 	t_tex					tex;
 	t_v						n;
-	t_col					col;
 	int						id;
 	double					min;
-	double					dist;
 }							t_inter;
 
 /*
@@ -238,7 +233,6 @@ typedef struct				s_b
 	double					colmax;
 	double					gamma;
 	double					saturation;
-	double					max_dist;
 	int						id;
 	int						p;
 	int						y;
@@ -246,11 +240,9 @@ typedef struct				s_b
 	int						winy;
 	int						maxid;
 	int						aliasing;
-	int						nb_inter;
 	int						rec;
 	int						draw_lights;
 	int						ac;
-	unsigned int			depth;
 	char					*av;
 	t_act					*act;
 	t_px					**tab_px;
@@ -314,8 +306,8 @@ t_matrice					init_matrice();
 */
 
 void						init_vp(t_b *b);
-t_tex						init_tex(void);
-t_inter						init_inter(void);
+t_tex						init_tex();
+void						init_inter(t_inter *inter);
 t_act						init_act(t_obj *obj1, int action, int axis);
 t_b							copy_base(t_b *b, t_b *bl);
 
@@ -356,7 +348,7 @@ void						ev_move_cam(t_b *b, int ev);
 void						ev_rotate_xy(t_b *b, int ev);
 
 /*
-** Event on objects						| event_obj.c
+** Event on objects
 */
 
 void						event_obj(t_b *b, int ev);
@@ -412,16 +404,10 @@ t_vl						*search_vl(t_b *b, int id);
 */
 
 unsigned int				spectrum_color(int value, int min, int max);
+t_col						cast_ray(t_b *b, t_ray ray);
 void						color_sat(t_col *col, double sat);
 void						color_max(t_col *col, double *colmax);
 t_col						gamma_corr(t_col col, double coeff, double gamma);
-
-/*
-** Ray casting functions				| cast_ray.c
-*/
-
-t_col						cast_ray(t_b *b, t_ray ray, unsigned int depth);
-t_col						cast_reflect(t_b *b, t_ray ray, unsigned int depth);
 
 /*
 ** Utilitaries for color				| color_utils.c
@@ -446,7 +432,7 @@ t_col						color_pow(t_col col, double n);
 
 double						inter_obj(t_b *b, t_ray *ray);
 int							inter_obj_lux(t_b *b, t_ray *ray);
-int							inter_all(t_b *b, t_ray *ray, double min, char flag);
+int							inter_all(t_b *b, t_ray *ray, double min);
 
 /*
 ** Calculation for the differents obj	| calc_obj.c
@@ -498,7 +484,7 @@ t_matrice					matrice_multnb(t_matrice a, double nb);
 t_v							matrice_multvect(t_matrice m, t_v v);
 
 /*
-** Cam refreshing						| cam_utils.c
+** Cam refreshing
 */
 
 void						refresh_dir(t_cam *cam, t_v v);
@@ -524,14 +510,14 @@ void						act_color(t_obj *obj);
 void						to_fdf(t_b *b, char *name);
 
 /*
-** Parsing								| parsing.c
+** Parsing							| parsing.c
 */
 
 void						parse_main(t_b *b, char *av);
 void						parse_zob(t_b *b, char *av);
 
 /*
-** Utils for parsing special format		| parsing_utils.c
+** Utils for parsing special format | parsing_utils.c
 */
 
 char						**decoupe(char *s);
@@ -540,7 +526,7 @@ t_col						parse_col(char *s);
 double						parse_double(char *s);
 
 /*
-** help functions						| help.c
+** help functions					| help.c
 */
 
 int							help_parsing(void);

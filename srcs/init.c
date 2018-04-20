@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:12:09 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/19 20:36:57 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/03 20:31:01 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,21 @@ void	init_b(t_b *b)
 
 	b->p = 1.0;
 	b->win = NULL;
-	b->winx = 640;
-	b->winy = 480;
+	b->winx = 640 * 1.5;
+	b->winy = 480 * 1.5;
 	init_vp(b);
 	init_cam(b);
 	b->vl = NULL;
 	b->lux = NULL;
 	b->obj = NULL;
 	b->amb = init_col(0.0, 0.0, 0.0);
-	b->max = 1000.0;
+	b->max = 1000;
 	b->aliasing = 2;
 	b->colmax = 0.0;
 	b->gamma = 1.0;
 	b->saturation = 7.0;
 	b->rec = 0;
-//	b->time = 0;
 	b->draw_lights = 1;
-	b->depth = 1;
-	b->max_dist = 1000.0;
-	b->inter = init_inter();
 	b->tab_px = (t_px**)malloc(sizeof(t_px*) * b->winy);
 	i = -1;
 	while (++i < b->winy)
