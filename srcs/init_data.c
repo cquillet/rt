@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:32:08 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/03 17:11:03 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/11 19:02:35 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ t_ray		init_ray(t_v ori, t_v dir, double t)
 	ray.ori = ori;
 	ray.dir = dir;
 	ray.t = t;
+	ray.id = 0;
 	return (ray);
 }

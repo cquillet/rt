@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:38:45 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/03 17:11:02 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/06 19:34:55 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,11 @@ t_b		copy_base(t_b *b, t_b *bl)
 
 void	init_inter(t_inter *inter)
 {
-	inter = (t_inter *)malloc(sizeof(t_inter));
-	inter->min = 666666666;
+	if (!(inter = (t_inter *)malloc(sizeof(t_inter))))
+	{
+		inter->min = 666666666;
+		inter->dist = 0.;
+	}
 }
 
 /*

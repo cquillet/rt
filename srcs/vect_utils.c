@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 19:00:15 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/03 17:10:48 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/21 14:28:32 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,31 @@ double		vect_norme(t_v v)
 
 void		vect_normalize(t_v *v)
 {
-	double n;
+	double		n;
 
 	n = vect_norme(*v);
-	v->x /= n;
-	v->y /= n;
-	v->z /= n;
+	if (ABS(n) < MARGIN_FLOAT)
+	{
+		v->x = 0.;
+		v->y = 0.;
+		v->z = 0.;
+	}
+	else
+	{
+		v->x /= n;
+		v->y /= n;
+		v->z /= n;
+	}
 }
 
-t_v			reflect(t_v v, t_v n)
+t_v			reflect(t_v incident, t_v n)
 {
-	return (vect_add(vect_multnb(&v, -1), vect_multnb(&n, 2 * vect_dot(v, n))));
+	double		dot;
+
+	dot = vect_dot(n, incident);
+	if (ABS(dot) < MARGIN_FLOAT)
+		return (incident);
+	return (vect_sub(incident, vect_multnb(&n, 2. * dot))) ;
 }
 
 /*
@@ -67,11 +81,11 @@ t_v			vect_rotate(t_v v, double angle, t_v axe)
 	q.data[1][2] = -axe.x;
 	q.data[2][0] = -axe.y;
 	q.data[2][1] = axe.x;
-	r.data[0][0] = 1;
-	r.data[1][1] = 1;
-	r.data[2][2] = 1;
+	r.data[0][0] = 1.;
+	r.data[1][1] = 1.;
+	r.data[2][2] = 1.;
 	r = matrice_add(r, matrice_multnb(q, sin(angle)));
-	r = matrice_add(r, matrice_multnb(matrice_mult(q, q), 1 - cos(angle)));
+	r = matrice_add(r, matrice_multnb(matrice_mult(q, q), 1. - cos(angle)));
 	tmp = matrice_multvect(r, v);
 	return (tmp);
 }

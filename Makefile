@@ -6,7 +6,7 @@
 #    By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/27 17:07:31 by vmercadi          #+#    #+#              #
-#    Updated: 2018/04/04 21:31:03 by cquillet         ###   ########.fr        #
+#    Updated: 2018/04/21 14:15:12 by cquillet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC = srcs/maintest2.c srcs/error.c srcs/event.c srcs/vect_calc1.c \
     srcs/action.c srcs/event_obj.c srcs/parsing.c srcs/help.c \
     srcs/color_calc.c srcs/color_utils.c srcs/event_move.c srcs/init_obj.c \
     srcs/init_data.c srcs/init_sheit.c srcs/parse_utils.c srcs/lux_calc.c \
-    srcs/draw.c srcs/event_screen.c
+    srcs/draw.c srcs/event_screen.c srcs/cast_ray.c
 
 INCLUDES = -I includes -I libft -I lib/SDL2/Headers
 CFLAGS = -Wall -Wextra -Werror $(INCLUDES)
