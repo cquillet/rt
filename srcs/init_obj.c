@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:27:30 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/03 17:11:03 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/22 17:15:47 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ t_obj		init_cone(t_v v, t_col col, t_v h, double angle)
 	cone.d = 0;
 	cone.r = 0;
 	cone.ori = v;
+	if (angle < 1.)
+		angle = 1.;
+	else if (angle > 89.)
+		angle = 89.;
 	cone.angle = DEG2RAD(angle);
 	cone.h = h;
 	cone.tex = init_tex();
@@ -122,8 +126,7 @@ t_obj		init_cyl(t_v v, t_col col, t_v h, double r)
 	cyl.d = 0;
 	if (r < 0.01)
 		r = 0.1;
-	else
-		cyl.r = r;
+	cyl.r = r;
 	cyl.h = h;
 	cyl.ori = v;
 	cyl.angle = 0;

@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:12:09 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/21 17:30:03 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/22 21:11:05 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,22 @@
 ** Init the base struct
 */
 
-void	init_b(t_b *b)
+static t_px	**init_tab_px(int winy, int winx)
 {
-	int	i;
+	t_px	**t;
+	int		i;
 
+	if ((t = (t_px**)malloc(sizeof(t_px*) * winy)))
+	{
+		i = -1;
+		while (++i < winy)
+			t[i] = (t_px*)malloc(sizeof(t_px) * winx);
+	}
+	return (t);
+}
+
+void		init_b(t_b *b)
+{
 	b->p = 1.0;
 	b->win = NULL;
 	b->winx = 640;
@@ -37,19 +49,17 @@ void	init_b(t_b *b)
 	b->saturation = 7.0;
 	b->rec = 0;
 	b->draw_lights = 1;
-	b->depth = 2;
+	b->depth = 1;
 	b->max_dist = 10000.0;
-	b->tab_px = (t_px**)malloc(sizeof(t_px*) * b->winy);
-	i = -1;
-	while (++i < b->winy)
-		b->tab_px[i] = (t_px*)malloc(sizeof(t_px) * b->winx);
+	b->inter = init_inter();
+	b->tab_px = init_tab_px(b->winy, b->winx);
 }
 
 /*
 ** SDL windows init
 */
 
-void	init_win(t_b *b)
+void		init_win(t_b *b)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
 		error_quit(1);
@@ -66,7 +76,7 @@ void	init_win(t_b *b)
 ** Init the cam strcut values
 */
 
-void	init_cam(t_b *b)
+void		init_cam(t_b *b)
 {
 	b->cam.pos = init_vect(0, 0, -b->vp.dist);
 	b->cam.dir = init_vect(0, 0, 1);
@@ -77,7 +87,7 @@ void	init_cam(t_b *b)
 ** Init the lux struct
 */
 
-t_lux	init_lux(t_v pos, t_col dif, t_col spe)
+t_lux		init_lux(t_v pos, t_col dif, t_col spe)
 {
 	t_lux	lux;
 

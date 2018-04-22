@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/12 14:55:30 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/03 17:23:40 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/22 20:08:17 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,17 @@ void	ev_move_obj(t_b *b, int ev)
 	if (!(obj = search_obj(b, b->id)))
 		return (ev_move_lum(b, ev));
 	if (ev == SDLK_i)
-		obj->ori.x += 0.5;
+		obj->ori.x += 0.551;
 	else if (ev == SDLK_k)
-		obj->ori.x -= 0.5;
+		obj->ori.x -= 0.551;
 	else if (ev == SDLK_l)
-		obj->ori.y += 0.5;
+		obj->ori.y += 0.552;
 	else if (ev == SDLK_j)
-		obj->ori.y -= 0.5;
+		obj->ori.y -= 0.552;
 	else if (ev == SDLK_u)
-		obj->ori.z -= 2.0;
+		obj->ori.z -= 2.003;
 	else if (ev == SDLK_o)
-		obj->ori.z += 2.0;
+		obj->ori.z += 2.003;
 }
 
 /*
@@ -86,17 +86,17 @@ void	ev_move_lum(t_b *b, int ev)
 	if (!(lux = search_lux(b, b->id)))
 		return ;
 	if (ev == SDLK_i)
-		lux->ori.x += 0.1;
+		lux->ori.x += 0.111;
 	else if (ev == SDLK_k)
-		lux->ori.x -= 0.1;
+		lux->ori.x -= 0.111;
 	else if (ev == SDLK_l)
-		lux->ori.y += 0.1;
+		lux->ori.y += 0.112;
 	else if (ev == SDLK_j)
-		lux->ori.y -= 0.1;
+		lux->ori.y -= 0.112;
 	else if (ev == SDLK_u)
-		lux->ori.z -= 2.0;
+		lux->ori.z -= 2.013;
 	else if (ev == SDLK_o)
-		lux->ori.z += 2.0;
+		lux->ori.z += 2.013;
 }
 
 void	ev_mouse(t_b *b)

@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 05:00:18 by cquillet          #+#    #+#             */
-/*   Updated: 2018/04/04 17:20:46 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/22 14:07:16 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	draw_aliasing(t_b *b, int x, int y)
 				px = b->tab_px[y + j][x + i];
 				color_sat(&px.col, b->saturation);
 				c = col2int(gamma_corr(color_multnb(px.col, 1.0 /
-					b->saturation),1.0, b->gamma));
+					b->saturation), 1.0, b->gamma));
 			}
 			SDL_LockSurface(b->img);
 			*((unsigned int *)b->img->pixels +

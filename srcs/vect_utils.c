@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 19:00:15 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/21 14:28:32 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/22 12:44:59 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_v			reflect(t_v incident, t_v n)
 	dot = vect_dot(n, incident);
 	if (ABS(dot) < MARGIN_FLOAT)
 		return (incident);
-	return (vect_sub(incident, vect_multnb(&n, 2. * dot))) ;
+	return (vect_sub(incident, vect_multnb(&n, 2. * dot)));
 }
 
 /*

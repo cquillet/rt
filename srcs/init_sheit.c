@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:38:45 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/06 19:34:55 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/22 14:09:53 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,18 @@ t_b		copy_base(t_b *b, t_b *bl)
 }
 
 /*
-** VERY important function to INITIALIZE the inter min at 666666666
+** Init an intersection struct
 */
 
-void	init_inter(t_inter *inter)
+t_inter	init_inter(void)
 {
-	if (!(inter = (t_inter *)malloc(sizeof(t_inter))))
-	{
-		inter->min = 666666666;
-		inter->dist = 0.;
-	}
+	t_inter	inter;
+
+	inter.dist = 0.;
+	inter.id = -1;
+	inter.n = init_vect(0., 0., 0.);
+	inter.tex = init_tex();
+	return (inter);
 }
 
 /*

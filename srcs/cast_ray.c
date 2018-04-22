@@ -6,15 +6,15 @@
 /*   By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/06 19:03:06 by cquillet          #+#    #+#             */
-/*   Updated: 2018/04/21 14:43:27 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/22 12:38:52 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
-#include <stdio.h>
+
 /*
- ** Return the color
- */
+** Return the color
+*/
 
 static void		color_calc(t_col *col, t_lux *lux, t_b *b, t_v eye_to_obj)
 {
