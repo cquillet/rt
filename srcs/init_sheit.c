@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:38:45 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/22 14:09:53 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/23 15:43:15 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_tex	init_tex(void)
 	tex.col = init_col(1.0, 1.0, 1.0);
 	tex.ka = init_col(0.5, 0.5, 0.5);
 	tex.kd = init_col(1.0, 1.0, 1.0);
-	tex.ks = init_col(1.0, 1.0, 1.0);
+	tex.ks = init_col(0.0, 0.0, 0.0);
 	return (tex);
 }
 

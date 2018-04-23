@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 05:00:18 by cquillet          #+#    #+#             */
-/*   Updated: 2018/04/22 14:07:16 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/23 16:28:01 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ static void	draw_aliasing(t_b *b, int x, int y)
 					b->saturation), 1.0, b->gamma));
 			}
 			SDL_LockSurface(b->img);
-			*((unsigned int *)b->img->pixels +
-					b->winx * (y + j) + x + i) = c;
+			*((unsigned int *)b->img->pixels + b->winx * (y + j) + x + i) = c;
 			SDL_UnlockSurface(b->img);
 		}
 	}

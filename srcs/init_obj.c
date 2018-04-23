@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:27:30 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/22 17:15:47 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/23 16:51:46 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,11 @@ t_obj		init_plane(t_v n, double d, t_col col)
 	plane.d = d;
 	if (!n.x && !n.y && !n.z)
 		plane.b = 1.0;
-	plane.r = 0;
+	plane.r = 0.;
 	plane.h = init_vect(0.0, 0.0, 0.0);
 	plane.ori = init_vect(0.0, 0.0, 0.0);
-	plane.angle = 0;
+	plane.angle = 0.;
 	plane.tex = init_tex();
-	plane.tex.ks = init_col(0.6, 0.6, 0.6);
-	plane.tex.kd = init_col(0.7, 0.7, 0.7);
 	plane.tex.col = col;
 	plane.next = NULL;
 	return (plane);
@@ -67,17 +65,14 @@ t_obj		init_sph(t_v v, t_col col, double r)
 	sph.b = 0;
 	sph.c = 0;
 	sph.d = 0;
-	if (r < 0.01)
-		r = 0.1;
-	else
-		sph.r = r;
+	if (r < 0.5)
+		r = 0.5;
+	sph.r = r;
 	sph.ori = v;
 	sph.angle = 0;
 	sph.h = init_vect(0.0, 0.0, 0.0);
 	sph.tex = init_tex();
-	sph.tex.ks = init_col(1.0, 1.0, 1.0);
-	sph.tex.kd = init_col(1.0, 1.0, 1.0);
-	sph.tex.col = (!col2int(col)) ? init_col(1.0, 1.0, 1.0) : col;
+	sph.tex.col = col;
 	sph.next = NULL;
 	return (sph);
 }
@@ -102,11 +97,12 @@ t_obj		init_cone(t_v v, t_col col, t_v h, double angle)
 	else if (angle > 89.)
 		angle = 89.;
 	cone.angle = DEG2RAD(angle);
-	cone.h = h;
+	if (vect_norme2(h) < MARGIN_FLOAT)
+		cone.h = init_vect(0.0, 0.1, 0.0);
+	else
+		cone.h = h;
 	cone.tex = init_tex();
-	cone.tex.ks = init_col(1.0, 1.0, 1.0);
-	cone.tex.kd = init_col(1.0, 1.0, 1.0);
-	cone.tex.col = (!col2int(col)) ? init_col(1.0, 1.0, 1.0) : col;
+	cone.tex.col = col;
 	cone.next = NULL;
 	return (cone);
 }
@@ -124,16 +120,17 @@ t_obj		init_cyl(t_v v, t_col col, t_v h, double r)
 	cyl.b = 0;
 	cyl.c = 0;
 	cyl.d = 0;
-	if (r < 0.01)
-		r = 0.1;
+	if (r < 0.5)
+		r = 0.5;
 	cyl.r = r;
-	cyl.h = h;
+	if (vect_norme2(h) < MARGIN_FLOAT)
+		cyl.h = init_vect(0.0, 0.1, 0.0);
+	else
+		cyl.h = h;
 	cyl.ori = v;
 	cyl.angle = 0;
 	cyl.tex = init_tex();
-	cyl.tex.ks = init_col(1.0, 1.0, 1.0);
-	cyl.tex.kd = init_col(1.0, 1.0, 1.0);
-	cyl.tex.col = (!col2int(col)) ? init_col(1.0, 1.0, 1.0) : col;
+	cyl.tex.col = col;
 	cyl.next = NULL;
 	return (cyl);
 }

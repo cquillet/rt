@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 17:49:31 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/22 21:08:08 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/23 17:11:18 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ double		inter_obj(t_b *b, t_ray *ray, double min)
 			b->inter.n = inter_norm(*obj, *ray);
 		}
 	}
+	if (ray->t > min && ray->t < b->max)
+		ray->t *= (1.0 - 10 * MARGIN_FLOAT);
 	return (ray->t);
 }
 
