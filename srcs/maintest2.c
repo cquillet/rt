@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 20:00:54 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/24 21:43:23 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/24 20:01:05 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void		render(void *arg)
 	}
 	draw_lux(b);
 	draw(b);
-//	action(b->act);
+	action(b->act);
 }
 
 /*
@@ -72,31 +72,11 @@ void		render(void *arg)
 
 void		start(t_b *b)
 {
-	t_obj *l;
-	t_lux *u;
-		printf ("b %p\n", b);
 	if (b->ac == 2)
 	{
 		init_b(b);
 		init_win(b);
 		parse_main(b, b->av);
-		printf ("b img %p\n", b->img);
-		printf ("b win %p\n", b->win);
-		printf ("b obj %p\n", b->obj);
-		printf ("b av %p\n", b->av);
-		l= b->obj;
-		while (l)
-		{
-			printf ("obj %p\n", l);
-			l = l->next;
-		}
-		printf ("b lux %p\n", b->lux);
-		u= b->lux;
-		while (u)
-		{
-			printf ("lux %p\n", u);
-			u = u->next;
-		}
 	}
 	else if (b->ac < 2)
 	{
@@ -111,6 +91,7 @@ void		start(t_b *b)
 		if (b->rec)
 			ev_screenshot(b);
 	}
+	clean_b(b);
 }
 
 int			main(int ac, char **av)
@@ -120,11 +101,11 @@ int			main(int ac, char **av)
 	if (main_help(ac, av))
 		return (0);
 	b.ac = ac;
-	b.av = av[1] ? ft_strdup(av[1]) : NULL;
+	if (av[1])
+		b.av = av[1];
+	else
+		b.av = NULL;
 	b.rec = 0;
 	start(&b);
-	printf ("main b->obj %p\n", b.obj);
-	printf ("main b->lux %p\n", b.lux);
-	clean_b(&b);
 	return (0);
 }

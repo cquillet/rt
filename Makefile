@@ -6,7 +6,7 @@
 #    By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/27 17:07:31 by vmercadi          #+#    #+#              #
-#    Updated: 2018/04/24 22:31:13 by cquillet         ###   ########.fr        #
+#    Updated: 2018/04/23 22:10:09 by vmercadi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC = srcs/maintest2.c srcs/error.c srcs/event.c srcs/vect_calc1.c \
     srcs/draw.c srcs/event_screen.c srcs/cast_ray.c srcs/clean.c
 
 INCLUDES = -I includes -I lib/libft -I lib/SDL2/Headers
-CFLAGS = -Wall -Wextra -Werror $(INCLUDES) -O1 -g3 #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror $(INCLUDES)
 MFLAGS = -lpthread -O3
 SDL = lib/SDL2/SDL2
 SRCO = $(SRC:%.c=%.o)

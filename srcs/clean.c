@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/23 16:23:12 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/24 22:30:38 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/24 15:29:19 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,11 @@
 
 void	clean_b(t_b *b)
 {
-/*	char *w;
-	w = (char *)b;
-	printf("file %p -> %p\n", w, b + 200);
-	while ((unsigned int)w < (unsigned int)(b + 200))
-		dprintf (2, "w %p / %p\n", w++, b + 200);*/
 	clean_obj(b->obj);
 	clean_lux(b->lux);
 	clean_act(b->act);
 	clean_vl(b->vl);
-	ft_strdel(&b->av);
-//	SDL_FreeSurface(b->img);
+	SDL_FreeSurface(b->img);
 	SDL_DestroyWindow(b->win);
 	SDL_Quit();
 	// free_tab(b->tab_px);
@@ -42,9 +36,7 @@ void	clean_obj(t_obj *obj)
 
 	if (obj)
 	{
-		printf("obj %p\n", obj);
 		tmp = obj;
-		printf("tmp %p\n", tmp);
 		while (tmp)
 		{
 			tmp2 = tmp->next;
