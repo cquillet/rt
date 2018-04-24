@@ -6,18 +6,15 @@
 /*   By: vmercadi <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/14 11:50:37 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/16 19:52:52 by cquillet         ###   ########.fr       */
+/*   Updated: 2017/01/20 14:01:48 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstpush(t_list **lst, t_list *new)
+void	ft_lstpush(t_list *lst, t_list new)
 {
-	t_list		*l;
-
-	l = *lst;
-	while (l)
-		l = l->next;
-	l = new;
+	while (lst->next)
+		lst = lst->next;
+	lst->next = new;
 }

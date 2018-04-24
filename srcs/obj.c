@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 20:02:11 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/03 17:11:00 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/24 20:47:40 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_obj	*add_obj(t_b *b, t_obj obj)
 		*(b->obj) = obj;
 		b->obj->id = ++b->maxid;
 		b->obj->next = NULL;
-		b->vl = add_vl(b, init_vl(b->obj->ori, b->obj->id));
+//		b->vl = add_vl(b, init_vl(b->obj->ori, b->obj->id));
 		return (b->obj);
 	}
 	while (l->next)
@@ -38,7 +38,7 @@ t_obj	*add_obj(t_b *b, t_obj obj)
 	*l = obj;
 	l->id = ++b->maxid;
 	l->next = NULL;
-	b->vl = add_vl(b, init_vl(l->ori, l->id));
+//	b->vl = add_vl(b, init_vl(l->ori, l->id));
 	return (l);
 }
 

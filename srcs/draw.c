@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 05:00:18 by cquillet          #+#    #+#             */
-/*   Updated: 2018/04/23 16:28:01 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/24 20:00:50 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void		draw(t_b *b)
 	x = 0;
 	while (x < b->winx)
 	{
-		y = b->y;
+		y = 0;
 		while (y < b->winy)
 		{
 			draw_aliasing(b, x, y);

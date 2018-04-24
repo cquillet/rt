@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 18:44:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/22 21:11:58 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/24 15:29:24 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,6 @@ typedef	struct				s_obj
 	double					d;
 	double					r;
 	double					angle;
-	t_tri					*tri;
 	t_v						h;
 	t_v						ori;
 	t_tex					tex;
@@ -531,10 +530,10 @@ void						parse_zob(t_b *b, char *av);
 ** Utils for parsing special format		| parsing_utils.c
 */
 
-char						**decoupe(char *s);
-t_v							parse_vect(char *s);
-t_col						parse_col(char *s);
-double						parse_double(char *s);
+char						**decoupe(t_b *b, char *s);
+t_v							parse_vect(t_b *b, char *s);
+t_col						parse_col(t_b *b, char *s);
+double						parse_double(t_b *b, char *s);
 
 /*
 ** help functions						| help.c
@@ -548,7 +547,17 @@ int							main_help(int ac, char **av);
 */
 
 void						error();
-void						error_quit(int e);
-void						parse_err(int e, char *s);
+void						error_quit(t_b *b, int e);
+void						parse_err(t_b *b, int e, char *s);
+
+/*
+** Cleaning before leaving
+*/
+
+void						clean_b(t_b *b);
+void						clean_obj(t_obj *obj);
+void						clean_lux(t_lux *lux);
+void						clean_act(t_act *act);
+void						clean_vl(t_vl *vl);
 
 #endif

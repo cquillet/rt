@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 18:12:09 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/22 21:11:05 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/24 14:44:59 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static t_px	**init_tab_px(int winy, int winx)
 	{
 		i = -1;
 		while (++i < winy)
+
 			t[i] = (t_px*)malloc(sizeof(t_px) * winx);
 	}
 	return (t);
@@ -41,9 +42,10 @@ void		init_b(t_b *b)
 	b->vl = NULL;
 	b->lux = NULL;
 	b->obj = NULL;
+	b->act = NULL;
 	b->amb = init_col(0.0, 0.0, 0.0);
 	b->max = 1000.0;
-	b->aliasing = 2;
+	b->aliasing = 1;
 	b->colmax = 0.0;
 	b->gamma = 1.0;
 	b->saturation = 7.0;
@@ -62,13 +64,13 @@ void		init_b(t_b *b)
 void		init_win(t_b *b)
 {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
-		error_quit(1);
+		error_quit(b, 1);
 	if (!(b->win = SDL_CreateWindow("RTv1", SDL_WINDOWPOS_CENTERED,
 											SDL_WINDOWPOS_CENTERED,
 											b->winx,
 											b->winy,
 											SDL_WINDOW_SHOWN)))
-		error_quit(1);
+		error_quit(b, 1);
 	b->img = SDL_GetWindowSurface(b->win);
 }
 

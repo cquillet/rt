@@ -6,26 +6,29 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/10 16:56:39 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/03 17:23:42 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/24 20:19:05 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void	error_quit(int e)
+void	error_quit(t_b *b, int e)
 {
 	if (e == 1)
-		ft_putendl_fd("FAILED to init SDL", 2);
+		ft_putendl_fd("FAILED to init SDL.", 2);
 	else if (e == 2)
-		ft_putendl("FAILED to open file");
-	exit(e);
+		ft_putendl("FAILED to open file.");
+	else if (e == 3)
+		ft_putendl("Malloc failed.");
+	clean_b(b);
+	exit(0);
 }
 
 /*
 ** Errors happened while parsing
 */
 
-void	parse_err(int e, char *s)
+void	parse_err(t_b *b, int e, char *s)
 {
 	if (e == 0)
 		ft_putstrcolor("Error in obj name : ", RED);
@@ -38,5 +41,7 @@ void	parse_err(int e, char *s)
 	else if (e == 0 && ft_strchr(s, '\t'))
 		ft_putstrcolor("The file given is not a scene : ", RED);
 	ft_putendl(s);
-	exit(1);
+	free_tab((void **)b->tab_px);
+	clean_b(b);
+	exit(0);
 }

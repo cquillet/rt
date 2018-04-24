@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/02 18:44:31 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/22 18:05:55 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/24 21:19:36 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,9 @@ void	ev_screenshot(t_b *b)
 	char			*tmp;
 
 	name = ft_strdup("screenshots/Screenshot");
-	tmp = ft_strjoin(name, ft_itoa(time(NULL)));
-	ft_strdel(&name);
-	name = ft_strjoin(tmp, ".bmp");
+	ft_strjoin_free(name, (tmp = ft_itoa(time(NULL))));
 	ft_strdel(&tmp);
+	ft_strjoin_free(name, ".bmp");
 	renderer = SDL_GetRenderer(b->win);
 	screen = SDL_CreateRGBSurface(0, b->winx, b->winy,
 						32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
@@ -54,4 +53,5 @@ void	ev_screenshot(t_b *b)
 	SDL_SaveBMP(screen, name);
 	ft_strdel(&name);
 	SDL_FreeSurface(screen);
+	SDL_DestroyRenderer(renderer);
 }

@@ -6,7 +6,7 @@
 #    By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/27 17:07:31 by vmercadi          #+#    #+#              #
-#    Updated: 2018/04/23 22:46:32 by cquillet         ###   ########.fr        #
+#    Updated: 2018/04/24 22:31:13 by cquillet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,19 +19,31 @@ SRC = srcs/maintest2.c srcs/error.c srcs/event.c srcs/vect_calc1.c \
     srcs/action.c srcs/event_obj.c srcs/parsing.c srcs/help.c \
     srcs/color_calc.c srcs/color_utils.c srcs/event_move.c srcs/init_obj.c \
     srcs/init_data.c srcs/init_sheit.c srcs/parse_utils.c srcs/lux_calc.c \
-    srcs/draw.c srcs/event_screen.c srcs/cast_ray.c
+    srcs/draw.c srcs/event_screen.c srcs/cast_ray.c srcs/clean.c
 
 INCLUDES = -I includes -I lib/libft -I lib/SDL2/Headers
-CFLAGS = -Wall -Wextra -Werror $(INCLUDES)
+CFLAGS = -Wall -Wextra -Werror $(INCLUDES) -O1 -g3 #-fsanitize=address
 MFLAGS = -lpthread -O3
 SDL = lib/SDL2/SDL2
 SRCO = $(SRC:%.c=%.o)
 LIB = lib/libft/libft.a
 H = includes/rtv1.h includes/color.h
 
+#Install imagemagick to convert screenshots
+MAGICK_NAME =imagemagick
+MAGICK = $(shell brew info $(MAGICK_NAME) | grep -o "Not installed")
+
 #Installing SDL2_ttf and SDL2_image and move SDL2 if necessary
 SDL_SDL_NAME =SDL2
 SDL_SDL = $(shell ls ~/Library/Frameworks | grep "^SDL2$$")
+
+SDL_IMG_NAME =sdl2_image
+SDL_IMG = $(shell brew info $(SDL_IMG_NAME) | grep -o "Not installed")
+#SDL_IMG = $(shell ls ~/.brew/lib/ | grep libSDL2_image.a)
+
+SDL_TTF_NAME =sdl2_ttf
+SDL_TTF = $(shell brew info $(SDL_TTF_NAME) | grep -o "Not installed")
+#SDL_TTF = $(shell ls ~/.brew/lib/ | grep libSDL2_ttf.a)
 
 LIBS =
 
@@ -39,7 +51,19 @@ ifeq "$(SDL_SDL)" ""
 LIBS += $(SDL_SDL_NAME)
 endif
 
-.PHONY: all re clean fclean it reit ultra $(SDL_SDL_NAME)
+ifeq "$(SDL_TTF)" "Not installed"
+LIBS += $(SDL_TTF_NAME)
+endif
+
+ifeq "$(SDL_IMG)" "Not installed"
+LIBS += $(SDL_IMG_NAME)
+endif
+
+ifeq "$(MAGICK)" "Not installed"
+LIBS += $(MAGICK_NAME)
+endif
+
+.PHONY: all re clean fclean it reit ultra $(SDL_SDL_NAME) $(SDL_IMG_NAME) $(SDL_TTF_NAME) $(MAGICK_NAME)
 
 all: $(NAME)
 
@@ -54,6 +78,9 @@ $(NAME): $(LIBS) $(H) $(SRC)
 
 $(SDL_SDL_NAME):
 	$(shell mkdir -p ~/library/Frameworks && cp -rf ./lib/SDL2/ ~/library/Frameworks)
+
+$(SDL_IMG_NAME) $(SDL_TTF_NAME) $(MAGICK_NAME):
+	@brew install $@
 
 it: all
 	@./RTv1
