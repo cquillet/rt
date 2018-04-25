@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/12/13 20:08:33 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 11:27:19 by cquillet         ###   ########.fr       */
+/*   Created: 2018/03/06 19:23:35 by vmercadi          #+#    #+#             */
+/*   Updated: 2018/04/21 14:19:30 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Return the pos of the pixel in the viewplane
@@ -28,9 +28,9 @@ t_v		dir_vp_upleft(t_b *b)
 
 t_v		dir_vp_pixel(t_b *b, t_px px)
 {
-	t_v	tmp;
-	t_v tmp2;
-	t_v tmp3;
+	t_v		tmp;
+	t_v		tmp2;
+	t_v		tmp3;
 
 	tmp = vect_multnb(&b->cam.dirright, b->vp.xi * (double)px.x);
 	tmp2 = vect_multnb(&b->cam.dirup, b->vp.yi * (double)px.y);
@@ -51,22 +51,19 @@ t_v		ray2vect(t_ray ray)
 ** Solve any 1st and 2nd degree equation
 */
 
-double		solve_equation(double min, double a, double b, double c)
+double	solve_equation(double min, double a, double b, double c)
 {
 	double	ret;
 	double	delta;
 
-	if (a == 0)
-		return (-c / b);
-	if (((delta = b * b - 4 * a * c) < 0))
-		return (-1.);
-	if (delta == 0)
-		return (-b / 2 / a);
-	ret = (-b - sqrt(delta)) / 2 / a;
-	if (ret > min)
-		return (ret);
-	else
-		return((-b + sqrt(delta)) / 2 / a);
+	if (ABS(a) < MARGIN_FLOAT)
+		return (ABS(b) < MARGIN_FLOAT ? 0. : -c / b);
+	if (((delta = b * b - 4. * a * c) <= -MARGIN_FLOAT))
+		return (min);
+	else if (delta < MARGIN_FLOAT)
+		return (-b / (2. * a));
+	ret = (-b - sqrt(delta)) / (2. * a);
+	return (ret > min ? ret : ((-b + sqrt(delta)) / (2. * a)));
 }
 
 /*
@@ -88,53 +85,3 @@ t_px	pos2px(t_b *b, t_v v)
 	px.y = (int)(b->winy * (0.5 - n * b->vp.dist / b->vp.h));
 	return (px);
 }
-
-/*
-** Affiche toutes les caracteristiques d'un objet
-*/
-
-void	print_obj(t_obj *obj)
-{
-	ft_putendl("------------ PRINT OBJ ------------");
-	printf("form = %d \n id = %d \n a = %f \n b = %f \n c = %f \n d = %f \n angle = %f \n",
-		obj->form, obj->id, obj->a, obj->b, obj->c,obj->d, obj->angle);
-	ft_putstr("h = ");
-	vect_print(obj->h);
-	ft_putstr("ori = ");
-	vect_print(obj->ori);
-	ft_putendl("-----------------------------------");
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 20:02:11 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 05:20:21 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/25 18:35:58 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 **	Add an obj to the list
@@ -18,28 +18,30 @@
 
 t_obj	*add_obj(t_b *b, t_obj obj)
 {
-			ft_putendlcolor("add_obj();", MAGENTA);
 	t_obj	*l;
 
-	if (!b)
+	if (!b || b->nb_obj >= NB_OBJ_MAX)
 		return (NULL);
 	if (!(l = b->obj))
 	{
-		b->obj = (t_obj *)malloc(sizeof(t_obj));
-		*(b->obj) = obj;
-		b->obj->id = ++b->maxid;
-		b->obj->next = NULL;
-		b->vl = add_vl(b, init_vl(b->obj->ori, b->obj->id));
-		return (b->obj);
+		if (!(b->obj = (t_obj *)malloc(sizeof(t_obj))))
+			error_quit(b, 3);
+		l = b->obj;
 	}
-	while (l->next)
+	else
+	{
+		while (l->next)
+			l = l->next;
+		l->next = (t_obj *)malloc(sizeof(t_obj));
 		l = l->next;
-	l->next = (t_obj *)malloc(sizeof(t_obj));
-	l = l->next;
-	*l = obj;
-	l->id = ++b->maxid;
-	l->next = NULL;
-	b->vl = add_vl(b, init_vl(l->ori, l->id));
+	}
+	if (l)
+	{
+		*l = obj;
+		l->id = ++b->maxid;
+		l->next = NULL;
+		b->nb_obj++;
+	}
 	return (l);
 }
 
@@ -49,7 +51,6 @@ t_obj	*add_obj(t_b *b, t_obj obj)
 
 t_obj	*search_obj(t_b *b, int id)
 {
-			// ft_putendlcolor("search_obj();", MAGENTA);
 	t_obj	*l;
 
 	if (id <= 0 || !b)
@@ -68,30 +69,29 @@ t_obj	*search_obj(t_b *b, int id)
 
 void	delete_obj(t_b *b, int id)
 {
-			ft_putendlcolor("delete_obj();", MAGENTA);
+	t_obj	*l;
 	t_obj	*obj;
-	t_obj	*obj2;
 
-	if ((obj = search_obj(b, id - 1)))
-	{
-		if (obj->next->next)
-			obj2 = obj->next->next;
-		else
-			obj2 = NULL;
-		free(obj->next);
-		obj->next = NULL;
-		obj->next = obj2;
-	}
-	else if (!(obj = search_obj(b, id)))
+	if (!b || !b->obj || id < 0 || b->nb_obj < 2)
 		return ;
-	else
+	l = b->obj;
+	if (b->obj->id == id)
 	{
-		if (obj->next)
-			obj2 = obj->next;
-		else
-			obj2 = NULL;
-		free(obj);
-		obj = NULL;
-		b->obj = obj2;
+		b->obj = l->next;
+		free(l);
+		b->nb_obj--;
+		return ;
+	}
+	while (l && l->next)
+	{
+		if (l->next->id == id)
+		{
+			obj = l->next->next;
+			free(l->next);
+			l->next = obj;
+			b->nb_obj--;
+			return ;
+		}
+		l = l->next;
 	}
 }

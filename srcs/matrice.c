@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/26 16:33:39 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/01/26 18:29:05 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/03 17:23:48 by vmercadi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Add 2 matrices
@@ -102,7 +102,7 @@ t_matrice	matrice_multnb(t_matrice a, double nb)
 ** Multiply a matrice by a vector
 */
 
-t_v		matrice_multvect(t_matrice m, t_v v)
+t_v			matrice_multvect(t_matrice m, t_v v)
 {
 	t_v		vect;
 	int		i;
@@ -121,19 +121,3 @@ t_v		matrice_multvect(t_matrice m, t_v v)
 		vect.z += v.z * m.data[2][i];
 	return (vect);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

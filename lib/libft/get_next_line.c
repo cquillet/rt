@@ -6,30 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/04 09:18:40 by vmercadi          #+#    #+#             */
-/*   Updated: 2017/07/27 15:29:17 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/24 20:11:22 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/*
-** strjoin qui leaks pas
-*/
-
-char	*ft_strjoin_free(char *dst, char *src)
-{
-	char	*tmp;
-
-	if (!src)
-		return (dst);
-	if (!dst)
-		return (src);
-	tmp = ft_strdup(dst);
-	ft_strdel(&dst);
-	dst = ft_strjoin(tmp, src);
-	ft_strdel(&tmp);
-	return (dst);
-}
 
 /*
 ** Return the block corresponding to the fd.

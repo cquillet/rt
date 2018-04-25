@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/13 19:00:15 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 07:51:09 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/22 12:44:59 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** Sort le carré de la norme du vecteur
@@ -18,8 +18,7 @@
 
 double		vect_norme2(t_v v)
 {
-			// ft_putendlcolor("vect_norme2();", MAGENTA);
-	return((v.x * v.x) + (v.y * v.y) + (v.z * v.z));
+	return ((v.x * v.x) + (v.y * v.y) + (v.z * v.z));
 }
 
 /*
@@ -28,8 +27,7 @@ double		vect_norme2(t_v v)
 
 double		vect_norme(t_v v)
 {
-			// ft_putendlcolor("vect_norme();", MAGENTA);
-	return(sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z)));
+	return (sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z)));
 }
 
 /*
@@ -38,31 +36,40 @@ double		vect_norme(t_v v)
 
 void		vect_normalize(t_v *v)
 {
-			// ft_putendlcolor("vect_normalize();", MAGENTA);
-	double n;
+	double		n;
 
 	n = vect_norme(*v);
-	v->x /= n;
-	v->y /= n;
-	v->z /= n;
+	if (ABS(n) < MARGIN_FLOAT)
+	{
+		v->x = 0.;
+		v->y = 0.;
+		v->z = 0.;
+	}
+	else
+	{
+		v->x /= n;
+		v->y /= n;
+		v->z /= n;
+	}
 }
 
-t_v			reflect(t_v v, t_v n)
+t_v			reflect(t_v incident, t_v n)
 {
-	return (vect_add(vect_multnb(&v, -1), vect_multnb(&n, 2 * vect_dot(v, n))));
+	double		dot;
+
+	dot = vect_dot(n, incident);
+	if (ABS(dot) < MARGIN_FLOAT)
+		return (incident);
+	return (vect_sub(incident, vect_multnb(&n, 2. * dot)));
 }
 
 /*
-** La précession = autour de l'axe Oz, fait passer de (O,x,y,z) au référentiel (O,u,v,z) (en bleu).
-** La nutation = autour de l'axe Ou (ligne des nœuds), fait passer de (O,u,v,z) à (O,u,w,z’) (en vert).
-** La rotation propre ou giration = autour de l'axe Oz’, fait passer de (O,u,w,z’) au référentiel lié au solide (O,x’,y’,z’) (en rouge).
-**	i + s * q + (1-c) * q*q
+** Rotate a vector
 */
 
-t_v		vect_rotate(t_v v, double angle, t_v axe)
+t_v			vect_rotate(t_v v, double angle, t_v axe)
 {
-			// ft_putendlcolor("vect_rotate_xy();", MAGENTA);
-	t_v 		tmp;
+	t_v			tmp;
 	t_matrice	q;
 	t_matrice	r;
 
@@ -74,20 +81,11 @@ t_v		vect_rotate(t_v v, double angle, t_v axe)
 	q.data[1][2] = -axe.x;
 	q.data[2][0] = -axe.y;
 	q.data[2][1] = axe.x;
-	r.data[0][0] = 1;
-	r.data[1][1] = 1;
-	r.data[2][2] = 1;
+	r.data[0][0] = 1.;
+	r.data[1][1] = 1.;
+	r.data[2][2] = 1.;
 	r = matrice_add(r, matrice_multnb(q, sin(angle)));
-	r = matrice_add(r, matrice_multnb(matrice_mult(q, q), 1 - cos(angle)));
+	r = matrice_add(r, matrice_multnb(matrice_mult(q, q), 1. - cos(angle)));
 	tmp = matrice_multvect(r, v);
 	return (tmp);
-}
-
-/*
-** Print the vector values
-*/
-
-void		vect_print(t_v v)
-{
-	printf("x = %f | y = %f | z = %f\n", v.x, v.y, v.z);
 }

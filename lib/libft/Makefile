@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+         #
+#    By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/11/16 06:27:28 by vmercadi          #+#    #+#              #
-#    Updated: 2018/02/16 19:38:36 by vmercadi         ###   ########.fr        #
+#    Created: 2018/04/25 19:54:18 by cquillet          #+#    #+#              #
+#    Updated: 2018/04/25 20:39:20 by cquillet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
+NAME =		libft.a
 
 SRC = 	ft_isalpha.c		ft_isprint.c		ft_memcmp.c			\
 		ft_atoi.c			ft_strlcat.c		ft_strncmp.c		\
@@ -39,25 +39,38 @@ SRC = 	ft_isalpha.c		ft_isprint.c		ft_memcmp.c			\
 		get_next_line.c		ft_revstr.c			ft_isupper.c		\
 		no_case.c			repeat.c			tab_len.c			\
 		swap_tab.c 			free_tab.c			tab_new.c			\
-		sort_ascii.c		search_tab.c 		ft_atof.c			\
+		sort_ascii.c		search_tab.c 		ft_atof.c
 
+CC =		gcc
+CFLAGS =	-Wall -Wextra -Werror
 
-SRCO = $(SRC:%.c=%.o)
+SRCDIR =	.
+INCDIR =	.
+OBJDIR =	objs
 
-.PHONY: all re clean fclean
+INCFILE =	$(INCDIR)/libft.h
 
-all: $(NAME)
+OBJ =		$(SRC:%.c=$(OBJDIR)/%.o)
 
-$(NAME):$(SRCO)
-	@gcc -c -Wall -Wextra -Werror $(SRC)
-	@ar rc $(NAME) $(SRCO)
+all: obj
+	@$(MAKE) $(NAME)
+
+obj:
+	@mkdir -p $(OBJDIR)
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c $(INCFILE)
+	$(CC) $(CFLAGS) -I$(INCDIR) -o $@ -c $<
+
+$(NAME): $(OBJ)
+	ar rc $(NAME) $(OBJ)
+	ranlib $(NAME)
 
 clean:
-	@rm -rf $(SRCO)
+	rm -rf $(OBJDIR)
 
-fclean: clean
-	@rm -rf $(NAME)
-
-ultra: all clean
+fclean:
+	rm -f $(NAME)
+	rm -rf $(OBJDIR)
 
 re: fclean all
+

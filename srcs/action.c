@@ -6,11 +6,11 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 13:16:46 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/03/12 05:20:32 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/25 18:36:54 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RTv1.h"
+#include "rtv1.h"
 
 /*
 ** To animate the scene we need to
@@ -19,16 +19,14 @@
 ** action();
 */
 
-void	action(t_act *act)
+void		action(t_act *act)
 {
-            // ft_putendlcolor("action();", MAGENTA);
-	if (act->action < 0)
+	if (!act || act->action < 0)
 		return ;
 	while (act)
 	{
 		if (act->action == 1)
 			;
-			// act_ellipse(act);
 		else if (act->action == 2)
 			act_movaxis(act);
 		else if (act->action == 3)
@@ -43,44 +41,36 @@ void	action(t_act *act)
 
 t_act		*add_action(t_b *b, t_act act)
 {
-            ft_putendlcolor("add_action();", MAGENTA);
 	t_act	*l;
 
 	if (!b)
 		return (NULL);
 	if (!(l = b->act))
 	{
-		b->act = (t_act *)malloc(sizeof(t_act));
+		if (!(b->act = (t_act *)malloc(sizeof(t_act))))
+			error_quit(b, 3);
 		*(b->act) = act;
 		b->act->next = NULL;
 		return (b->act);
 	}
 	while (l->next)
 		l = l->next;
-	l->next = (t_act *)malloc(sizeof(t_act));
+	if (!(l->next = (t_act *)malloc(sizeof(t_act))))
+		error_quit(b, 3);
 	l = l->next;
 	*l = act;
 	l->next = NULL;
 	return (l);
 }
 
-
 /*
 ** Move inline of the axe defined and between min and max
 */
 
-void	act_movaxis(t_act *act)
+void		act_movaxis(t_act *act)
 {
 	double tmp;
-	// t_v 	min;
-	// t_v  	max;
-	// t_v		v;
 
-	// min = init_vect(-3.0, 0.0, 0.0);
-	// max = init_vect(3.0, 0.0, 0.0);
-	// v = vect_sub(max, min);
-	// act->obj1->ori = vect_add(min, vect_multnb(&v, (cos(act->p) + 1.) / 2.));
-	// act->p += DEG2RAD(20);
 	if (act->min >= act->max)
 	{
 		tmp = act->min;
@@ -103,7 +93,6 @@ void	act_movaxis(t_act *act)
 
 void		act_color(t_obj *obj)
 {
-            // ft_putendlcolor("act_color();", MAGENTA);
 	obj->tex.col.r = (double)rand() / (double)RAND_MAX;
 	obj->tex.col.g = (double)rand() / (double)RAND_MAX;
 	obj->tex.col.b = (double)rand() / (double)RAND_MAX;
