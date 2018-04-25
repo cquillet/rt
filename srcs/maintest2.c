@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/16 20:00:54 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/25 18:19:11 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/25 21:59:11 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,5 @@ int			main(int ac, char **av)
 			b.av = NULL;
 		start(&b);
 	}
-	while (1)
-		;
 	return (0);
 }
