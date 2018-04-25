@@ -6,7 +6,7 @@
 #    By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/25 19:54:36 by cquillet          #+#    #+#              #
-#    Updated: 2018/04/25 21:36:18 by cquillet         ###   ########.fr        #
+#    Updated: 2018/04/25 21:56:24 by cquillet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,16 +55,11 @@ SDLDIR	= ~/Library/Frameworks
 
 INCFILE = $(addprefix $(INCDIR)/,$(NAME).h)
 
-#OBJ =		$(addprefix $(OBJDIR)/,$(SRC:.c=.o))
 OBJ		= $(SRC:%.c=$(OBJDIR)/%.o)
 
 FT		= lib/libft
 FT_LNK	= -L$(FT) -lft
 FT_INC	= -I$(INCDIR) -I$(FT)
-
-#SDL_SRC =	lib/SDL2
-#SDL_LNK =	$(SDLDIR)/SDL2/SDL2
-#SDL_INC =	-I$(SDL_SRC)/Headers
 
 ifeq "$(shell brew info sdl2 | grep -o 'Not installed')" "Not installed"
 INSTALL	= install
@@ -84,16 +79,15 @@ install:
 	brew install sdl2
 
 obj:
-	echo "$(OBJ)"
 	mkdir -p $(OBJDIR)
-	rm -rf $(SDLDIR)/SDL2
+#	rm -rf $(SDLDIR)/SDL2
 #	mkdir -p $(SDLDIR)/SDL2
-#	cp -R $(SDL_SRC) $(SDLDIR)
+#	cp -R $(SDL_SRC) ~/Library/Frameworks
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(FT_INC) -o $@ -c $< $(shell sdl2-config --cflags)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) lib/libft/libft.a
 	$(CC) $(OBJ) $(FT_LNK) $(shell sdl2-config --libs) -lm -o $(NAME)
 
 clean:
