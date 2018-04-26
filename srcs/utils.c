@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 19:23:35 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/21 14:19:30 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/26 16:33:18 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ double	solve_equation(double min, double a, double b, double c)
 
 	if (ABS(a) < MARGIN_FLOAT)
 		return (ABS(b) < MARGIN_FLOAT ? 0. : -c / b);
-	if (((delta = b * b - 4. * a * c) <= -MARGIN_FLOAT))
+	if (((delta = b * b - 4. * a * c) <= -2.0 * MARGIN_FLOAT))
 		return (min);
-	else if (delta < MARGIN_FLOAT)
-		return (-b / (2. * a));
+	else if (delta < 2.0 * MARGIN_FLOAT)
+		return (min);
 	ret = (-b - sqrt(delta)) / (2. * a);
 	return (ret > min ? ret : ((-b + sqrt(delta)) / (2. * a)));
 }

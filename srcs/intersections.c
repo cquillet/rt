@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/19 17:49:31 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/25 15:51:22 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/26 16:32:13 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ double		inter_obj(t_b *b, t_ray *ray, double min)
 		}
 	}
 	if (ray->t > min && ray->t < b->max)
-		ray->t *= (1.0 - 100 * MARGIN_FLOAT);
+		ray->t *= (1.0 - 100. * MARGIN_FLOAT);
 	return (ray->t);
 }
 
@@ -73,8 +73,13 @@ double		inter_obj(t_b *b, t_ray *ray, double min)
 
 int			inter_obj_lux(t_b *b, t_ray *to_light)
 {
+	int			id;
+	double		min;
+
 	to_light->t = 1.0;
-	return (inter_all(b, to_light, 2.5 * MARGIN_FLOAT, SHADOW_RAY));
+	min = 2.0 * MARGIN_FLOAT;
+	id = inter_all(b, to_light, min, SHADOW_RAY);
+	return (id);
 }
 
 /*
