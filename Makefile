@@ -6,7 +6,7 @@
 #    By: cquillet <cquillet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/25 19:54:36 by cquillet          #+#    #+#              #
-#    Updated: 2018/04/25 21:56:24 by cquillet         ###   ########.fr        #
+#    Updated: 2018/04/26 20:20:24 by cquillet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,19 +70,17 @@ endif
 .PHONY: all re clean fclean it reit ultra obj install
  
 all: obj $(INSTALL)
-	@echo "Libft all rule :"
 	@make -C $(FT)
-	@echo "\nRtv1 all rule :"
 	@$(MAKE) $(NAME)
 
 install:
-	brew install sdl2
+	@brew install sdl2
 
 obj:
-	mkdir -p $(OBJDIR)
-#	rm -rf $(SDLDIR)/SDL2
-#	mkdir -p $(SDLDIR)/SDL2
-#	cp -R $(SDL_SRC) ~/Library/Frameworks
+	@mkdir -p $(OBJDIR)
+	@rm -rf $(SDLDIR)/SDL2
+	@mkdir -p $(SDLDIR)/SDL2
+	@cp -R lib/sdl2 ~/Library/Frameworks
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(FT_INC) -o $@ -c $< $(shell sdl2-config --cflags)
@@ -91,16 +89,12 @@ $(NAME): $(OBJ) lib/libft/libft.a
 	$(CC) $(OBJ) $(FT_LNK) $(shell sdl2-config --libs) -lm -o $(NAME)
 
 clean:
-	@echo "Rtv1 clean rule :"
 	rm -rf $(OBJDIR)
-	@echo "\nLibft clean rule :"
 	@make -C $(FT) clean
 
 fclean:
-	@echo "Rtv1 fclean rule :"
 	rm -rf $(OBJDIR)
 	rm -f $(NAME)
-	@echo "\nLibft fclean rule :"
 	@make -C $(FT) fclean
 
 re: fclean all

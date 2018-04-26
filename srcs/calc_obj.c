@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/02 20:05:58 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/03 17:10:41 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/26 20:14:30 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,21 @@ double		calc_cone(t_ray *ray, t_obj cone, double min)
 {
 	double	coeff[3];
 	double	dot[2];
+	double	k;
 	double	t;
 	t_v		ori;
-	t_v		h;
 
 	ori = vect_sub(ray->ori, cone.ori);
-	h = cone.h;
-	vect_normalize(&h);
-	dot[0] = vect_dot(ray->dir, h);
-	dot[1] = vect_dot(ori, h);
-	t = 1.0 + pow(tan(cone.angle), 2.0);
-	coeff[0] = vect_norme2(ray->dir) - t * dot[0] * dot[0];
-	coeff[1] = 2.0 * (vect_dot(ray->dir, ori) - t * dot[0] * dot[1]);
-	coeff[2] = vect_norme2(ori) - t * dot[1] * dot[1];
-	return (solve_equation(min, coeff[0], coeff[1], coeff[2]));
+	vect_normalize(&cone.h);
+	dot[0] = vect_dot(ray->dir, cone.h);
+	dot[1] = vect_dot(ori, cone.h);
+	k = 1.0 + pow(tan(cone.angle), 2.0);
+	coeff[0] = vect_norme2(ray->dir) - k * dot[0] * dot[0];
+	coeff[1] = 2.0 * (vect_dot(ray->dir, ori) - k * dot[0] * dot[1]);
+	coeff[2] = vect_norme2(ori) - k * dot[1] * dot[1];
+	t = solve_equation(min, coeff[0], coeff[1], coeff[2]);
+	if (vect_dot(cone.h, vect_sub(vect_add(ray->ori,
+								vect_multnb(&ray->dir, t)), cone.ori)) < 0.)
+		return (ray->t);
+	return (t);
 }
