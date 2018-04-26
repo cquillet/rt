@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/08 18:44:32 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/25 18:08:51 by cquillet         ###   ########.fr       */
+/*   Updated: 2018/04/26 20:39:22 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -427,7 +427,6 @@ t_col						cast_reflect(t_b *b, t_ray ray, unsigned int depth);
 
 unsigned int				col2int(t_col col);
 t_col						int2col(unsigned int color);
-void						print_col(t_col col);
 
 /*
 ** Calculation on colors				| color_calc.c

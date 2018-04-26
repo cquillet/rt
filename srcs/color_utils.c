@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/06 11:05:15 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/03 17:10:33 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/26 20:36:33 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,4 @@ t_col			int2col(unsigned int color)
 	col.g = ((double)((color >> 8) & 255)) / 255.0;
 	col.b = ((double)((color) & 255)) / 255.0;
 	return (col);
-}
-
-/*
-** Print color
-*/
-
-void			print_col(t_col col)
-{
-	printf("r = %f | g = %f | b = %f \n", col.r, col.g, col.b);
 }
