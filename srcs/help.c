@@ -6,7 +6,7 @@
 /*   By: vmercadi <vmercadi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/16 18:56:35 by vmercadi          #+#    #+#             */
-/*   Updated: 2018/04/25 18:11:04 by vmercadi         ###   ########.fr       */
+/*   Updated: 2018/04/26 13:23:26 by cquillet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int				help_parsing(void)
 	ft_putendl("EX: sph    3.0/0.0/5.0  1.0/0.0/1.0  1.0\n");
 	ft_putendl("Cylindre :  Position       color          h       rayon");
 	ft_putendl("EX : cyl   2.0/2.0/3.0  0.0/0.0/1.0  1.0/0.0/0.0  1.0\n");
-	ft_putendl("Cone :      Position       color          h       rayon");
-	ft_putendl("EX : cone  0.0/0.0/5.0  1.0/1.0/1.0  1.0/0.0/0.0  1.0\n");
+	ft_putendl("Cone :      Position       color          h       angle");
+	ft_putendl("EX : cone  0.0/0.0/5.0  1.0/1.0/1.0  1.0/0.0/0.0  20.0\n");
 	ft_putendl("Lumiere :   Position       Diffuse    Spéculaire");
 	ft_putendl("EX : lux   0.0/0.0/5.0  0.0/0.2/0.2  0.0/0.5/0.5\n");
 	ft_putendl("----------------------------------------------------------\n");
@@ -50,7 +50,7 @@ int				help_parsing(void)
 	ft_putendl("plane    0.0 1.0 0.0 3.0  1.0/0.0/1.0");
 	ft_putendl("sph      3.0/0.0/5.0      1.0/0.0/1.0     0.2");
 	ft_putendl("cyl      2.0/2.0/3.0      0.0/0.0/1.0     1.0/0.0/0.0     1.0");
-	ft_putendl("cone     0.0/0.0/5.0      1.0/1.0/1.0     1.0/0.0/0.0     1.0");
+	ft_putendl("cone     0.0/0.0/5.0      1.0/1.0/1.0     1.0/0.0/0.0     20.0");
 	ft_putendl("lux      0.0/0.0/5.0      0.0/0.2/0.2     0.0/0.5/0.5");
 	ft_putendl("lux      2.0/3.0/5.0      0.7/0.7/0.7     0.7/0.7/0.7");
 	return (1);
