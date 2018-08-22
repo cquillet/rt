@@ -4,4 +4,4 @@
 This repo is an extract from the [original git for the project](https://github.com/tjeanner/RT)
 
 #### Screenshot example
-![rt](http://quillet.com/images/rt.png)
+![rt](https://raw.githubusercontent.com/cquillet/stuff/master/img/rt.png)
